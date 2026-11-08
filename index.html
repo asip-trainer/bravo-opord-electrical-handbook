@@ -1,0 +1,1817 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Bravo OPORD Electrical Handbook</title>
+<meta name="description" content="Learn to fill the OPORD shell field by field, on a replica of the shell itself, with every answer traced to the line of the PLT OPORD, the annex or the spot on the map it comes from.">
+<link rel="stylesheet" href="fonts/fonts.css?v=1b5d01f6">
+<style>
+:root {
+  --desk: #e8e6df; --paper: #fdfcf8; --panel: #ffffff; --ink: #181b1e; --ink-2: #555c64; --ink-3: #8a8f95;
+  --rule: #dcd8cd; --rule-2: #c7c2b4; --bar: #1a201d; --bar-ink: #ecebe4; --bar-2: #2a322e; --brass: #c6a052;
+  --copy: #2255c4; --copy-wash: #e8eefb; --std: #297a4a; --std-wash: #e3f1e8; --derive: #bd5311; --derive-wash: #fbeadc;
+  --hl: #ffe27a; --hl-edge: #f0bf2c; --bad: #b42318; --bad-wash: #fde9e7; --good: #1f7a45; --good-wash: #e2f3e8;
+  --mask: rgba(253, 252, 248, .9); --dim: rgba(14, 17, 19, .38);
+  --sh-1: 0 1px 0 rgba(0,0,0,.03), 0 1px 3px rgba(0,0,0,.06); --sh-2: 0 10px 30px rgba(18,22,26,.14);
+  --f-ui: "IBM Plex Sans Condensed", "Avenir Next Condensed", "Arial Narrow", sans-serif;
+  --f-mono: "IBM Plex Mono", ui-monospace, Menlo, Consolas, monospace;
+  --f-doc: "Source Serif 4", "Iowan Old Style", Georgia, serif;
+  --bar-h: 52px;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --desk: #0f1113; --paper: #171a1d; --panel: #13161a; --ink: #e8e6df; --ink-2: #a8adb3; --ink-3: #7b8086;
+    --rule: #2a2e33; --rule-2: #3b4046; --bar: #0a0c0d; --bar-ink: #e8e6df; --bar-2: #1c2125;
+    --copy: #7ea3ff; --copy-wash: #1a2640; --std: #63c98f; --std-wash: #14281c; --derive: #ff9a5c; --derive-wash: #33211a;
+    --hl: rgba(255, 214, 79, .36); --hl-edge: #e0b030; --bad: #ff8a80; --bad-wash: #3a1a18; --good: #6fd39a; --good-wash: #15291d;
+    --mask: rgba(23, 26, 29, .92); --dim: rgba(0, 0, 0, .5);
+  }
+}
+:root[data-theme="dark"] {
+  --desk: #0f1113; --paper: #171a1d; --panel: #13161a; --ink: #e8e6df; --ink-2: #a8adb3; --ink-3: #7b8086;
+  --rule: #2a2e33; --rule-2: #3b4046; --bar: #0a0c0d; --bar-ink: #e8e6df; --bar-2: #1c2125;
+  --copy: #7ea3ff; --copy-wash: #1a2640; --std: #63c98f; --std-wash: #14281c; --derive: #ff9a5c; --derive-wash: #33211a;
+  --hl: rgba(255, 214, 79, .36); --hl-edge: #e0b030; --bad: #ff8a80; --bad-wash: #3a1a18; --good: #6fd39a; --good-wash: #15291d;
+  --mask: rgba(23, 26, 29, .92); --dim: rgba(0, 0, 0, .5);
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; height: 100%; }
+body { background: var(--desk); color: var(--ink); font: 15px/1.45 var(--f-ui); -webkit-text-size-adjust: 100%; overflow: hidden; }
+button { font: inherit; color: inherit; cursor: pointer; }
+button:focus-visible, [tabindex]:focus-visible, input:focus-visible { outline: 2px solid var(--copy); outline-offset: 2px; }
+.mono { font-family: var(--f-mono); font-size: .92em; letter-spacing: -.01em; }
+kbd { font: 500 11px var(--f-mono); padding: 1px 5px; border: 1px solid currentColor; border-radius: 4px; opacity: .6; }
+.sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+
+/* ---------- top bar ---------- */
+.bar { height: var(--bar-h); display: flex; align-items: center; gap: 12px; padding: 0 14px; background: var(--bar); color: var(--bar-ink); position: relative; z-index: 30; }
+.brand { display: flex; align-items: baseline; gap: 8px; margin-right: auto; min-width: 0; white-space: nowrap; }
+.brand .mark { font-weight: 600; letter-spacing: .14em; font-size: 15px; }
+.brand .mark::after { content: "//"; color: var(--brass); margin-left: 8px; letter-spacing: 0; }
+.brand .name { font-weight: 500; font-size: 15px; letter-spacing: .02em; }
+.brand .scen { font: 400 12px var(--f-mono); color: #9aa39d; margin-left: 6px; overflow: hidden; text-overflow: ellipsis; }
+.seg { display: inline-flex; padding: 3px; border-radius: 9px; background: var(--bar-2); }
+.seg button { border: 0; background: transparent; color: #b9bdb6; padding: 6px 14px; border-radius: 7px; font-weight: 600; font-size: 14px; letter-spacing: .02em; min-height: 34px; }
+.seg button[aria-pressed="true"] { background: var(--bar-ink); color: var(--bar); }
+.ibtn { border: 0; background: var(--bar-2); color: var(--bar-ink); height: 34px; min-width: 34px; border-radius: 8px; padding: 0 10px; display: inline-flex; align-items: center; gap: 8px; font-size: 14px; }
+.ibtn kbd { opacity: .55; }
+.rail-btn { display: none; }
+.author { font: 600 11px var(--f-mono); color: var(--bar); background: var(--brass); padding: 2px 6px; border-radius: 4px; }
+
+/* ---------- layout ---------- */
+.app { height: calc(100vh - var(--bar-h)); display: grid; grid-template-columns: 236px minmax(0, 1fr) minmax(380px, 35vw); }
+.rail { overflow-y: auto; border-right: 1px solid var(--rule); background: var(--desk); padding: 12px 10px 40px; }
+.main { overflow-y: auto; overflow-x: hidden; position: relative; scroll-behavior: smooth; }
+.src { display: flex; flex-direction: column; min-height: 0; background: var(--panel); border-left: 1px solid var(--rule); position: relative; z-index: 5; }
+.sheet-handle { display: none; }
+
+/* ---------- page index ---------- */
+.rail h4 { margin: 14px 8px 6px; font: 600 11px var(--f-ui); letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); }
+.rail h4:first-child { margin-top: 2px; }
+.ri { width: 100%; display: grid; grid-template-columns: 44px 1fr auto; align-items: center; gap: 6px; text-align: left; border: 0; background: transparent; padding: 7px 8px; border-radius: 8px; color: var(--ink-2); font-size: 14px; line-height: 1.2; min-height: 36px; }
+.ri:hover { background: rgba(0,0,0,.045); color: var(--ink); }
+.ri[aria-current="true"] { background: var(--panel); color: var(--ink); box-shadow: var(--sh-1); font-weight: 600; }
+.ri .pn { font: 500 11px var(--f-mono); color: var(--ink-3); white-space: nowrap; }
+.ri.ov .pn::before { content: ""; display: inline-block; width: 12px; height: 12px; vertical-align: -2px; margin-right: 2px;
+  background: currentColor; -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.2'%3E%3Cpath d='M3 6l6-3 6 3 6-3v15l-6 3-6-3-6 3z'/%3E%3Cpath d='M9 3v15M15 6v15'/%3E%3C/svg%3E") center / contain no-repeat; mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.2'%3E%3Cpath d='M3 6l6-3 6 3 6-3v15l-6 3-6-3-6 3z'/%3E%3Cpath d='M9 3v15M15 6v15'/%3E%3C/svg%3E") center / contain no-repeat; }
+.ri .done { font-size: 12px; color: var(--good); font-weight: 600; }
+.ri .prog { font: 500 11px var(--f-mono); color: var(--ink-3); }
+
+/* ---------- the shell page (traced replica) ---------- */
+.sheet { max-width: 1240px; margin: 12px auto 120px; padding: 0 18px; }
+.pg-bar { display: flex; align-items: center; gap: 8px; margin: 0 0 6px; min-height: 36px; }
+.pg-t { flex: 1; min-width: 0; font: 600 17px/1.2 var(--f-ui); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.pg-t .pg-n { font: 500 12px var(--f-mono); color: var(--ink-3); margin-right: 8px; letter-spacing: .02em; }
+.pg-bar .btn { min-width: 36px; padding: 0 10px; }
+.pg-about { margin: 0 0 10px; color: var(--ink-2); font-size: 14px; max-width: 86ch; }
+.row-h { margin: 16px 0 8px; font: 600 12px var(--f-ui); letter-spacing: .14em; text-transform: uppercase; color: var(--ink-2); display: flex; align-items: center; gap: 10px; }
+.row-h::after { content: ""; flex: 1; height: 1px; background: var(--rule-2); }
+.t-copy { --c: var(--copy); --cw: var(--copy-wash); } .t-std { --c: var(--std); --cw: var(--std-wash); } .t-derive { --c: var(--derive); --cw: var(--derive-wash); }
+@keyframes rise { from { opacity: 0; transform: translateY(5px); } }
+@keyframes blink { 50% { opacity: .35; } }
+/* the page itself: printed form (vector trace) + the filled answers in ink, laid out exactly as on the shell */
+.pz.sheetpz { height: auto; aspect-ratio: var(--ar); max-height: calc(100vh - var(--bar-h) - 132px); background: color-mix(in srgb, var(--desk) 70%, #8c8a82); border: 0; border-radius: 10px; }
+.pz-c.paper { background: #fff; box-shadow: 0 1px 2px rgba(0,0,0,.16), 0 8px 26px rgba(0,0,0,.18); }
+.pz-c.paper > svg.form { position: absolute; inset: 0; width: 100%; height: 100%; }
+svg.form .ink-form { fill: #1c1e21; }
+.ans { position: absolute; inset: 0; pointer-events: none; }
+.stx { position: absolute; font-family: "Avenir Next Condensed", "IBM Plex Sans Condensed", var(--f-ui); font-weight: 500; line-height: 1.22; white-space: pre-wrap; overflow-wrap: anywhere; color: #0a218c; }
+.stx.b, .stx b { font-weight: 600; }
+.stx.c { text-align: center; }
+.stx.w { background: #fff; box-shadow: 0 0 0 4px #fff; }
+.stx.hid, [data-si].hid { visibility: hidden; }
+.stx.ink { animation: ink .7s ease-out both; }
+@keyframes ink { from { opacity: .2; clip-path: inset(0 100% 0 0); } to { opacity: 1; clip-path: inset(0 0 0 0); } }
+.cue { position: absolute; border: 4px dashed var(--c); border-radius: 10px; background: color-mix(in srgb, var(--c) 7%, transparent); pointer-events: none; animation: cue 1.6s ease-in-out infinite; }
+.cue::after { content: "?"; position: absolute; right: 6px; top: 6px; width: 30px; height: 30px; border-radius: 50%; background: var(--c); color: #fff; font: 600 20px/30px var(--f-ui); text-align: center; transform: scale(var(--inv, 1)); transform-origin: top right; box-shadow: 0 1px 4px rgba(0,0,0,.3); }
+.cue.cue-left::after { right: auto; left: 6px; transform-origin: top left; }
+@keyframes cue { 50% { background: color-mix(in srgb, var(--c) 15%, transparent); } }
+/* fields on this page */
+.fchips { display: flex; flex-wrap: wrap; gap: 6px; }
+.fchip { border: 1px solid var(--rule); background: var(--paper); border-radius: 999px; padding: 4px 11px 4px 9px; font-size: 13.5px; display: inline-flex; gap: 7px; align-items: center; min-height: 34px; color: var(--ink-2); text-align: left; }
+.fchip:hover { border-color: var(--rule-2); color: var(--ink); }
+.fchip > i { width: 8px; height: 8px; border-radius: 2px; background: var(--c); flex: none; }
+.fchip.is-sel { border-color: var(--c); color: var(--ink); box-shadow: 0 0 0 3px color-mix(in srgb, var(--c) 20%, transparent); font-weight: 600; }
+.fchip .gd { width: 7px; height: 7px; border-radius: 50%; flex: none; }
+.gd.got { background: var(--good); } .gd.shaky { background: var(--hl-edge); } .gd.missed { background: var(--bad); }
+.fchip .flag-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--bad); }
+/* field answers in the panel (written as on the shell) */
+.ansbox { background: #fff; color: #0a218c; border: 1px solid var(--rule); border-radius: 8px; padding: 9px 11px; font-family: "Avenir Next Condensed", "IBM Plex Sans Condensed", var(--f-ui); font-weight: 500; font-size: 15px; line-height: 1.35; overflow-wrap: anywhere; }
+.ansbox p { margin: 0 0 4px; } .ansbox b { font-weight: 600; }
+.ansbox .mono { font-family: inherit; font-size: 1em; letter-spacing: 0; }
+.ansbox dt, .ansbox th { color: #5b6476; }
+.kv { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 8px 14px; margin: 0; }
+.kv.wide { grid-template-columns: 1fr; }
+.kv div { min-width: 0; }
+.kv dt { font: 600 10.5px var(--f-ui); letter-spacing: .1em; text-transform: uppercase; margin-bottom: 1px; }
+.kv dd { margin: 0; }
+.tbl { width: 100%; overflow-x: auto; }
+.tbl table { width: 100%; border-collapse: collapse; font-size: 14px; }
+.tbl th { text-align: left; font: 600 10.5px var(--f-ui); letter-spacing: .1em; text-transform: uppercase; padding: 0 10px 5px 0; border-bottom: 1px solid #dfe2e8; vertical-align: bottom; }
+.tbl td { padding: 6px 10px 6px 0; border-bottom: 1px solid #dfe2e8; vertical-align: top; }
+.tbl tr:last-child td { border-bottom: 0; }
+.tbl + .kv { margin-top: 10px; }
+.tl { list-style: none; margin: 0; padding: 4px 0 2px; display: flex; flex-wrap: wrap; gap: 0; }
+.tl li { position: relative; padding: 14px 14px 0 0; min-width: 104px; max-width: 190px; flex: 1 1 104px; }
+.tl li::before { content: ""; position: absolute; top: 5px; left: 0; right: 0; height: 1px; background: #c9cdd6; }
+.tl li::after { content: ""; position: absolute; top: 1px; left: 0; width: 9px; height: 9px; border-radius: 50%; background: #fff; border: 2px solid currentColor; }
+.tl .tt { display: block; font-weight: 600; }
+.tl .te { display: block; font-size: 14px; line-height: 1.3; }
+.tl li.strong .tt { text-decoration: underline; }
+.gfx { border-radius: 6px; overflow: hidden; border: 1px solid var(--rule); background: #fff; }
+.gfx svg { display: block; width: 100%; height: auto; }
+.refcloud { display: grid; gap: 10px; }
+.refcloud div { font-size: 14px; } .refcloud b { display: block; font: 600 10.5px var(--f-ui); letter-spacing: .1em; text-transform: uppercase; color: #5b6476; }
+
+/* pan / zoom viewer (shell pages, overlays, map, enlarge) */
+.pz { position: relative; border: 1px solid var(--rule); border-radius: 12px; overflow: hidden; background: #f4f2ec; height: min(62vh, 640px); touch-action: none; user-select: none; }
+.pz-c { position: absolute; left: 0; top: 0; transform-origin: 0 0; will-change: transform; }
+.pz-c > img { display: block; width: 100%; height: 100%; pointer-events: none; -webkit-user-drag: none; }
+.pz-c > svg { display: block; width: 100%; height: 100%; }
+.pz .hot { position: absolute; border: 3px solid transparent; border-radius: 8px; background: transparent; padding: 0; }
+@media (hover: hover) { .pz .hot:hover { border-color: color-mix(in srgb, var(--c) 70%, transparent); background: color-mix(in srgb, var(--c) 8%, transparent); } }
+.pz .hot.is-sel { border-color: var(--c); background: transparent; }
+.pz .hot.shp, .pz .hot.shp:hover, .pz .hot.shp.is-sel { border-color: transparent; background: transparent; }  /* a shape's click target: no outline */
+.pz .spot { position: absolute; border-radius: 10px; box-shadow: 0 0 0 99999px var(--dim); pointer-events: none; transition: all .35s ease; }
+.pz .mask { position: absolute; border-radius: 6px; background: var(--mask); -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); pointer-events: none; }
+.pz-ctl { position: absolute; right: 10px; top: 10px; display: flex; gap: 4px; z-index: 3; }
+.pz-ctl button { border: 1px solid var(--rule); background: var(--panel); border-radius: 8px; height: 34px; min-width: 34px; padding: 0 10px; font-weight: 600; box-shadow: var(--sh-1); }
+.pz-mini { position: absolute; left: 10px; bottom: 10px; width: 120px; border: 1px solid var(--rule-2); border-radius: 6px; overflow: hidden; background: #fff; box-shadow: var(--sh-1); z-index: 3; }
+.pz-mini img { display: block; width: 100%; }
+.pz-mini .vp { position: absolute; border: 2px solid var(--copy); background: color-mix(in srgb, var(--copy) 10%, transparent); }
+.pz-mini .tg { position: absolute; width: 8px; height: 8px; margin: -4px; border-radius: 50%; background: var(--derive); box-shadow: 0 0 0 2px #fff; }
+
+/* ---------- home & lesson cards ---------- */
+.hero { max-width: 880px; margin: 40px auto 120px; padding: 0 24px; }
+.hero h1 { font: 600 40px/1.05 var(--f-ui); letter-spacing: -.015em; margin: 0 0 10px; }
+.hero h1 em { font-style: normal; color: var(--derive); }
+.hero .lede { font-size: 18px; color: var(--ink-2); max-width: 62ch; margin: 0 0 18px; }
+.types3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin: 18px 0 22px; }
+.types3 div { border: 1px solid var(--rule); border-top: 3px solid var(--c); border-radius: 10px; padding: 10px 12px; background: var(--paper); font-size: 14px; color: var(--ink-2); }
+.types3 b { display: block; color: var(--c); font-size: 15px; margin-bottom: 2px; }
+.cta { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 28px; }
+.btn { border: 1px solid var(--ink); background: var(--ink); color: var(--paper); border-radius: 10px; padding: 0 18px; min-height: 44px; font-weight: 600; font-size: 15px; letter-spacing: .01em; }
+.btn.ghost { background: transparent; color: var(--ink); border-color: var(--rule-2); }
+.btn.sm { min-height: 36px; padding: 0 12px; font-size: 14px; }
+.lessons { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 10px; }
+.pvs { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 14px; margin: 4px 0 26px; }
+.pv { border: 0; padding: 0; background: none; text-align: left; color: var(--ink-2); font-size: 13px; }
+.pv-pg { position: relative; overflow: hidden; border-radius: 5px; box-shadow: 0 1px 2px rgba(0,0,0,.14), 0 6px 18px rgba(0,0,0,.12); background: #fff; transition: transform .2s, box-shadow .2s; }
+.pv:hover .pv-pg { transform: translateY(-2px); box-shadow: 0 2px 4px rgba(0,0,0,.16), 0 12px 28px rgba(0,0,0,.16); }
+.pv .pz-c { pointer-events: none; }
+.pv b { display: block; margin-top: 7px; font-weight: 600; color: var(--ink); font-size: 14px; }
+.lesson { text-align: left; border: 1px solid var(--rule); background: var(--paper); border-radius: 12px; padding: 12px 14px; display: grid; gap: 4px; }
+.lesson:hover { border-color: var(--rule-2); box-shadow: var(--sh-1); }
+.lesson .ln { font: 500 11px var(--f-mono); color: var(--ink-3); }
+.lesson .lt { font-weight: 600; font-size: 16px; }
+.lesson .lm { font-size: 13px; color: var(--ink-2); }
+.lessons .lgroup { grid-column: 1 / -1; margin: 10px 0 -2px; font: 600 11px var(--f-ui); letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); }
+.pbar { height: 5px; border-radius: 3px; background: var(--rule); overflow: hidden; display: flex; }
+.pbar i { display: block; height: 100%; }
+.pbar .g { background: var(--good); } .pbar .s { background: var(--hl-edge); } .pbar .m { background: var(--bad); } .pbar .c { background: var(--ink); }
+.card { max-width: 640px; margin: 60px auto; padding: 26px 28px; border: 1px solid var(--rule); border-radius: 16px; background: var(--paper); box-shadow: var(--sh-2); animation: rise .35s both; }
+.card .ln { font: 500 12px var(--f-mono); color: var(--ink-3); }
+.card h2 { font: 600 28px/1.1 var(--f-ui); margin: 4px 0 8px; }
+.card ul { margin: 8px 0 18px; padding-left: 18px; color: var(--ink-2); }
+.tally { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin: 14px 0 18px; }
+.tally div { border-radius: 10px; padding: 10px; text-align: center; font-size: 13px; }
+.tally b { display: block; font: 600 26px var(--f-ui); }
+.tally .g { background: var(--good-wash); color: var(--good); } .tally .s { background: color-mix(in srgb, var(--hl) 45%, transparent); color: #8a6100; } .tally .m { background: var(--bad-wash); color: var(--bad); }
+
+/* ---------- source panel ---------- */
+.src-top { overflow-y: auto; padding: 16px 18px 0; flex: 0 1 auto; max-height: 54%; border-bottom: 1px solid var(--rule); }
+.src-foot { position: sticky; bottom: 0; z-index: 4; margin: 12px -18px 0; padding: 5px 18px 6px; background: var(--panel); border-top: 1px solid var(--rule); box-shadow: 0 -6px 14px -10px rgba(0,0,0,.25); }
+.src-foot .grade { margin-top: 3px; }
+.src-foot .nextpeek { margin-top: 0; }
+.src-foot .grade + .nextpeek { margin-top: 6px; }
+.nextpeek .btn.sm { min-height: 30px; padding: 0 8px; font-size: 13px; border-color: transparent; }
+@media (hover: hover) { .nextpeek .btn.sm:hover:not(:disabled) { background: color-mix(in srgb, var(--ink) 7%, transparent); } }
+@media (pointer: coarse) { .nextpeek .btn.sm { min-height: 40px; } }
+.lbar { display: grid; grid-template-columns: 1fr auto; gap: 4px; align-items: center; margin-bottom: 12px; font-size: 13px; color: var(--ink-2); }
+.lbar .pbar { grid-column: 1 / -1; }
+.kicker { font: 600 11px var(--f-ui); letter-spacing: .14em; text-transform: uppercase; color: var(--ink-3); }
+.fhead h2 { margin: 2px 0 6px; font: 600 23px/1.15 var(--f-ui); letter-spacing: -.005em; }
+.tchip { display: inline-flex; align-items: center; gap: 6px; font: 600 12px var(--f-ui); color: var(--c); background: var(--cw); padding: 3px 9px; border-radius: 999px; letter-spacing: .02em; }
+.tchip::before { content: ""; width: 7px; height: 7px; border-radius: 2px; background: currentColor; }
+.kicker .tchip { margin-left: 10px; padding: 1px 8px; font-size: 11px; letter-spacing: .02em; text-transform: none; vertical-align: 1px; }
+.ask { font-size: 17px; line-height: 1.4; margin: 12px 0 10px; }
+.sec-l { font: 600 11px var(--f-ui); letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); margin: 14px 0 6px; }
+.rule { font-size: 15px; margin: 0; }
+.chip { display: inline-flex; align-items: center; gap: 4px; font: 500 11.5px var(--f-mono); padding: 1px 6px; border-radius: 5px; border: 0; white-space: nowrap; vertical-align: 1px; margin: 0 2px 0 0; }
+.chip.order { color: var(--copy); background: var(--copy-wash); } .chip.annex { color: #6a4bb3; background: color-mix(in srgb, #6a4bb3 12%, transparent); }
+.chip.shell { color: var(--ink-2); background: color-mix(in srgb, var(--ink-2) 12%, transparent); }
+.chip.map { color: #8a5a00; background: color-mix(in srgb, #c98a12 16%, transparent); }
+.std-tag { font: 600 10.5px var(--f-ui); letter-spacing: .08em; text-transform: uppercase; color: var(--std); background: var(--std-wash); padding: 1px 6px; border-radius: 5px; vertical-align: 1px; margin-right: 2px; }
+button.chip:hover { filter: brightness(.95); text-decoration: underline; }
+.evid { list-style: none; margin: 0; padding: 0; display: grid; gap: 4px; }
+.evid li { display: grid; grid-template-columns: 24px 1fr; gap: 8px; padding: 7px 8px; border-radius: 8px; cursor: pointer; font-size: 14.5px; animation: rise .3s both; }
+.evid li:hover { background: color-mix(in srgb, var(--ink) 4%, transparent); }
+.evid li.on { background: color-mix(in srgb, var(--hl) 40%, transparent); }
+.evid .n { width: 22px; height: 22px; border-radius: 50%; display: grid; place-items: center; font: 600 11.5px var(--f-mono); background: var(--cw); color: var(--c); }
+.evid li.res .n { background: var(--c); color: var(--panel); }
+.note { margin-top: 10px; background: color-mix(in srgb, var(--hl) 28%, transparent); border-left: 3px solid var(--hl-edge); border-radius: 0 8px 8px 0; padding: 8px 10px; font-size: 14px; }
+.flag { margin-top: 10px; background: var(--bad-wash); color: var(--bad); border-radius: 8px; padding: 8px 10px; font-size: 13.5px; font-weight: 500; }
+.ctrl { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-top: 12px; }
+.grade { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 14px; }
+.grade button { min-height: 44px; border-radius: 10px; border: 1px solid var(--rule-2); background: var(--panel); font-weight: 600; display: flex; align-items: center; justify-content: center; gap: 6px; }
+.grade button[data-g="got"]:hover, .grade button[data-g="got"].on { background: var(--good-wash); border-color: var(--good); color: var(--good); }
+.grade button[data-g="shaky"]:hover, .grade button[data-g="shaky"].on { background: color-mix(in srgb, var(--hl) 45%, transparent); border-color: var(--hl-edge); color: #8a6100; }
+.grade button[data-g="missed"]:hover, .grade button[data-g="missed"].on { background: var(--bad-wash); border-color: var(--bad); color: var(--bad); }
+.nextpeek { margin-top: 10px; font-size: 13px; color: var(--ink-3); display: flex; justify-content: space-between; gap: 8px; align-items: center; }
+.nextpeek .btn { flex: none; white-space: nowrap; }
+.nextpeek > span { flex: 1; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; text-align: center; }
+.locfb { margin-top: 10px; padding: 8px 10px; border-radius: 8px; font-weight: 500; font-size: 14px; }
+.locfb.ok { background: var(--good-wash); color: var(--good); } .locfb.close { background: color-mix(in srgb, var(--hl) 45%, transparent); color: #7a5600; } .locfb.miss { background: var(--bad-wash); color: var(--bad); }
+.cloze { display: flex; flex-wrap: wrap; gap: 4px 6px; font-size: 15px; line-height: 1.6; margin: 6px 0 4px; }
+.cloze button { border: 0; border-bottom: 2px solid var(--std); background: var(--std-wash); color: var(--std); border-radius: 4px 4px 0 0; padding: 0 4px; font: 500 14px var(--f-mono); }
+.cloze span { padding: 0 1px; }
+.cloze .br { flex-basis: 100%; height: 0; }
+
+/* viewer */
+.viewer { flex: 1 1 0; min-height: 220px; display: flex; flex-direction: column; }
+.vtabs { display: flex; align-items: center; gap: 2px; padding: 8px 12px 0; border-bottom: 1px solid var(--rule); background: var(--panel); }
+.vtabs button.vt { border: 0; background: transparent; padding: 7px 10px 9px; font-weight: 600; font-size: 13.5px; color: var(--ink-3); border-bottom: 2px solid transparent; margin-bottom: -1px; display: inline-flex; gap: 6px; align-items: center; }
+.vtabs button.vt[aria-selected="true"] { color: var(--ink); border-bottom-color: var(--ink); }
+.vtabs button.vt .ct { font: 600 11px var(--f-mono); background: var(--hl-edge); color: #241a00; padding: 0 5px; border-radius: 9px; }
+.vtabs .hlnav { margin-left: auto; display: inline-flex; gap: 2px; align-items: center; font: 500 12px var(--f-mono); color: var(--ink-3); }
+.vtabs .hlnav button { border: 1px solid var(--rule); background: var(--panel); width: 28px; height: 28px; border-radius: 6px; }
+/* every place the visible answer comes from, so a second or third source can't be missed */
+.srcstrip { display: flex; flex-wrap: nowrap; overflow-x: auto; scrollbar-width: thin; align-items: center; gap: 6px; padding: 7px 12px; border-bottom: 1px solid var(--rule); background: var(--panel); }
+.srcstrip[hidden] { display: none; }
+.srcstrip button, .srcstrip .lab { flex: none; }
+.srcstrip.multi { background: color-mix(in srgb, var(--hl) 24%, var(--panel)); }
+.srcstrip .lab { font: 700 11px var(--f-ui); letter-spacing: .06em; text-transform: uppercase; color: var(--ink-2); margin-right: 2px; position: sticky; left: -12px; z-index: 1; align-self: stretch; display: flex; align-items: center; padding: 0 6px 0 12px; margin-left: -12px; background: color-mix(in srgb, var(--hl) 24%, var(--panel)); box-shadow: 10px 0 10px -6px color-mix(in srgb, var(--hl) 24%, var(--panel)); }
+.srcstrip.multi .lab { color: var(--ink); }
+.srcstrip button { min-height: 30px; border: 1px solid var(--rule-2); background: var(--panel); color: var(--ink); border-radius: 999px; padding: 3px 11px; font: 500 12.5px var(--f-ui); cursor: pointer; }
+.srcstrip button.s.on { border-color: var(--hl-edge); box-shadow: 0 0 0 2px color-mix(in srgb, var(--hl) 70%, transparent); font-weight: 600; }
+.srcstrip button.nx { margin-left: auto; position: sticky; right: 0; background: var(--ink); color: var(--panel); border-color: var(--ink); font-weight: 600; box-shadow: -12px 0 10px -4px var(--panel); }
+.srcstrip.multi button.nx { box-shadow: -12px 0 10px -4px color-mix(in srgb, var(--hl) 24%, var(--panel)); }
+.srcstrip button:focus-visible { outline: 2px solid var(--hl-edge); outline-offset: 2px; }
+.srcstrip.pulse { animation: srcpulse 1.8s ease-out 1; }
+@keyframes srcpulse { 0%, 35% { box-shadow: inset 0 0 0 3px var(--hl-edge); } 100% { box-shadow: inset 0 0 0 0 transparent; } }
+@media (prefers-reduced-motion: reduce) { .srcstrip.pulse { animation: none; } }
+@media (max-width: 820px) {
+  .srcstrip { scrollbar-width: none; }
+  .srcstrip::-webkit-scrollbar { display: none; }
+  .srcstrip button { min-height: 40px; }
+}
+.doc { flex: 1; overflow-y: auto; background: var(--desk); padding: 14px 14px 60px; position: relative; scroll-behavior: smooth; }
+.pane { display: none; } .pane.on { display: block; }
+
+/* the order as a typeset document */
+.ord-pg { background: var(--paper); border: 1px solid var(--rule); border-radius: 4px; box-shadow: var(--sh-1); padding: 22px 30px 26px 52px; margin: 0 auto 14px; max-width: 640px; font: 15px/1.5 var(--f-doc); position: relative; }
+.ord-pg .runhead { display: flex; justify-content: space-between; font: 500 10.5px var(--f-ui); letter-spacing: .08em; text-transform: uppercase; color: var(--ink-3); border-bottom: 1px solid var(--rule); padding-bottom: 6px; margin: -6px 0 12px -26px; }
+.ord-title { text-align: center; margin: 4px 0 14px; }
+.ord-title b { display: block; font: 600 22px var(--f-doc); }
+.ord-title small { font: 400 13px var(--f-doc); color: var(--ink-2); }
+.ord-title.hlp { background: color-mix(in srgb, var(--hl) 55%, transparent); border-radius: 6px; }
+.op { position: relative; margin: 0 0 6px; padding: 1px 4px; border-radius: 4px; transition: background .2s; display: grid; grid-template-columns: 62px 1fr; gap: 0 10px; margin-left: -40px; }
+.op .ref { padding-top: 3px; text-align: right; font: 500 9.5px var(--f-mono); color: var(--ink-3); opacity: .75; overflow-wrap: anywhere; }
+.op .ob { min-width: 0; }
+.op .lb { display: inline-block; min-width: 1.8em; font-variant-numeric: tabular-nums; }
+.op.head > .tx { font-weight: 600; }
+.op .tx b { font-weight: 600; }
+.op.trow { font-size: 14px; border-bottom: 1px solid var(--rule); margin-bottom: 0; padding: 3px 4px; }
+.op.trow .tx { display: grid; grid-template-columns: 150px 1fr; }
+.op.trow .tt { font: 500 12.5px var(--f-mono); }
+.op .uses { position: absolute; right: -26px; top: 2px; border: 0; background: transparent; font: 600 10px var(--f-mono); color: var(--ink-3); padding: 0 3px; border-radius: 6px; min-width: 18px; }
+.op .uses:hover { background: var(--copy-wash); color: var(--copy); }
+.learn .op .uses { display: none; }
+.op.hlp { background: color-mix(in srgb, var(--hl) 55%, transparent); box-shadow: inset 3px 0 0 var(--hl-edge); }
+.locating .op, .locating .ord-title { cursor: pointer; }
+.locating .ord-title:hover { background: color-mix(in srgb, var(--copy) 9%, transparent); box-shadow: inset 3px 0 0 var(--copy); border-radius: 6px; }
+.locating .op:hover { background: color-mix(in srgb, var(--copy) 9%, transparent); box-shadow: inset 3px 0 0 var(--copy); }
+.op.picked-bad { box-shadow: inset 3px 0 0 var(--bad); background: var(--bad-wash); }
+mark.hl { background: linear-gradient(transparent 8%, var(--hl) 8%, var(--hl) 92%, transparent 92%); color: inherit; padding: 0 1px; border-radius: 2px; -webkit-box-decoration-break: clone; box-decoration-break: clone; }
+.hl-n { display: inline-grid; place-items: center; width: 17px; height: 17px; border-radius: 50%; font: 600 10px var(--f-mono); background: var(--derive); color: #fff; vertical-align: 2px; margin-right: 3px; }
+.hl-on { animation: glow 1.1s ease-out 1; }
+@keyframes glow { 0% { box-shadow: 0 0 0 0 var(--hl-edge); } 40% { box-shadow: 0 0 0 6px color-mix(in srgb, var(--hl-edge) 50%, transparent); } 100% { box-shadow: 0 0 0 0 transparent; } }
+/* annexes, class clips, shell print */
+.ax { background: var(--paper); border: 1px solid var(--rule); border-radius: 10px; margin: 0 auto 12px; max-width: 640px; overflow: hidden; }
+.ax.hlc { border-color: var(--hl-edge); box-shadow: 0 0 0 3px color-mix(in srgb, var(--hl) 60%, transparent); }
+.ax h5 { margin: 0; padding: 9px 12px; font: 600 13.5px var(--f-ui); display: flex; justify-content: space-between; gap: 8px; border-bottom: 1px solid var(--rule); }
+.ax h5 span { font: 500 11px var(--f-mono); color: var(--ink-3); }
+.ax .img { display: block; width: 100%; border: 0; padding: 0; background: #fff; cursor: zoom-in; }
+.ax .img img { display: block; width: 100%; }
+.ax .it { padding: 7px 12px; border-top: 1px solid var(--rule); font: 14.5px/1.45 var(--f-doc); }
+.ax .it b { font: 600 13px var(--f-ui); margin-right: 6px; }
+.ax .it.hlp { background: color-mix(in srgb, var(--hl) 55%, transparent); }
+.locating .ax .it { cursor: pointer; } .locating .ax .it:hover { background: color-mix(in srgb, var(--copy) 9%, transparent); }
+/* the map */
+#pane-map.on { display: flex; flex-direction: column; height: 100%; min-height: 300px; }
+.mapz { flex: 1 1 auto; height: auto; min-height: 280px; background: #e9e6da; }
+.map-note { margin: 8px 2px 0; font-size: 12.5px; color: var(--ink-3); }
+.mk { position: absolute; display: flex; align-items: center; gap: 5px; transform: translate(-13px, -13px) scale(var(--inv, 1)); transform-origin: 13px 13px; pointer-events: none; white-space: nowrap; }
+.mk b { width: 26px; height: 26px; border-radius: 50%; display: grid; place-items: center; font: 600 12px var(--f-mono); background: var(--derive); color: #fff; box-shadow: 0 0 0 3px #fff, 0 2px 8px rgba(0,0,0,.35); }
+.mk span { font: 600 12.5px var(--f-ui); background: rgba(255,255,255,.94); color: #1a1a1a; padding: 2px 7px; border-radius: 6px; box-shadow: 0 1px 4px rgba(0,0,0,.25); }
+.mk:not(.cur) span { display: none; }  /* only the current marker is named, so close markers don't cover each other */
+.mk.hl-on b { animation: glow 1.1s ease-out 1; }
+.sp { background: var(--paper); border: 1px solid var(--rule); border-radius: 10px; margin: 0 auto 12px; max-width: 640px; padding: 10px 12px; }
+.sp h5 { margin: 0 0 6px; font: 600 13.5px var(--f-ui); }
+.sp li { font-size: 14px; margin: 2px 0; }
+.sp ul { margin: 0; padding-left: 18px; }
+.sp.hlc { border-color: var(--hl-edge); box-shadow: 0 0 0 3px color-mix(in srgb, var(--hl) 60%, transparent); }
+.emptydoc { max-width: 520px; margin: 30px auto; color: var(--ink-3); text-align: center; font-size: 14px; }
+
+/* connector between field and source line */
+.link { position: fixed; inset: 0; width: 100vw; height: 100vh; pointer-events: none; z-index: 20; overflow: visible; }
+.link path { fill: none; stroke-width: 2; stroke-dasharray: 5 4; opacity: .85; }
+.link circle { stroke: none; }
+
+/* modals */
+.modal { position: fixed; inset: 0; z-index: 50; display: none; background: rgba(10, 12, 14, .45); align-items: flex-start; justify-content: center; padding: 10vh 16px 16px; }
+.modal.on { display: flex; }
+.mbox { background: var(--panel); border-radius: 14px; box-shadow: var(--sh-2); width: min(640px, 100%); max-height: 78vh; display: flex; flex-direction: column; overflow: hidden; }
+.mbox input { border: 0; border-bottom: 1px solid var(--rule); padding: 16px 18px; font: 500 18px var(--f-ui); background: transparent; color: var(--ink); outline: none; }
+.mres { overflow-y: auto; padding: 6px; }
+.mres button { width: 100%; text-align: left; border: 0; background: transparent; display: grid; grid-template-columns: 10px 1fr auto; gap: 10px; align-items: center; padding: 9px 10px; border-radius: 8px; min-height: 44px; }
+.mres button.on, .mres button:hover { background: color-mix(in srgb, var(--copy) 9%, transparent); }
+.mres .d { width: 8px; height: 8px; border-radius: 2px; background: var(--c); }
+.mres .p { font: 500 11.5px var(--f-mono); color: var(--ink-3); }
+.mres .x { display: block; font-size: 12.5px; color: var(--ink-3); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.help { padding: 18px 20px 22px; overflow-y: auto; font-size: 14.5px; }
+.help h3 { font: 600 20px var(--f-ui); margin: 0 0 8px; }
+.help h4 { font: 600 11px var(--f-ui); letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); margin: 16px 0 6px; }
+.help table { border-collapse: collapse; } .help td { padding: 3px 12px 3px 0; vertical-align: top; }
+.lbx { position: fixed; inset: 0; z-index: 60; background: rgba(10,12,14,.82); display: none; }
+.lbx.on { display: block; }
+.lbx .pz { position: absolute; inset: 56px 16px 16px; height: auto; border-radius: 10px; }
+.lbx .x { position: absolute; top: 10px; right: 16px; }
+
+/* ---------- tablet / phone ---------- */
+@media (max-width: 1480px) {
+  .app { grid-template-columns: minmax(0, 1fr) minmax(360px, 38vw); }
+  .rail { position: fixed; left: 0; top: var(--bar-h); bottom: 0; width: 280px; z-index: 40; transform: translateX(-100%); transition: transform .25s; box-shadow: var(--sh-2); }
+  .rail.on { transform: none; }
+  .rail-btn { display: inline-flex; }
+}
+@media (max-width: 820px) {
+  :root { --bar-h: 52px; }
+  .brand .scen, .ibtn .lbl, .ibtn kbd { display: none; }
+  .brand .name { display: none; }
+  .app { display: block; height: calc(100vh - var(--bar-h)); }
+  .main { height: 100%; padding-bottom: 46vh; }
+  .sheet { padding: 0 10px; margin-top: 8px; }
+  .pg-about { font-size: 13px; }
+  .pz.sheetpz { max-height: none; }
+  .src { position: fixed; left: 0; right: 0; bottom: 0; height: 58vh; border-left: 0; border-top: 1px solid var(--rule); border-radius: 16px 16px 0 0; box-shadow: 0 -10px 30px rgba(0,0,0,.18); transform: translateY(calc(100% - 0px)); transition: transform .3s ease, height .3s ease; overflow-y: auto; display: block; }
+  .src.on { transform: none; }
+  .src.peek { height: 26vh; }
+  .sheet-handle { display: block; position: sticky; top: 0; z-index: 3; height: 22px; background: var(--panel); border-radius: 16px 16px 0 0; cursor: grab; }
+  .sheet-handle::before { content: ""; position: absolute; left: 50%; top: 8px; width: 40px; height: 4px; margin-left: -20px; border-radius: 2px; background: var(--rule-2); }
+  .sheet-handle .x { position: absolute; right: 8px; top: 2px; border: 0; background: transparent; font-size: 20px; color: var(--ink-3); width: 40px; height: 32px; }
+  .src-top { max-height: none; overflow: visible; padding-top: 4px; }
+  .viewer { min-height: 0; }
+  .doc { max-height: 52vh; }
+  .pz { height: 44vh; }
+  .pz.sheetpz { height: auto; }
+  .pz-ctl { top: auto; bottom: 8px; right: 8px; }
+  .pz-ctl button { height: 40px; min-width: 40px; padding: 0 8px; font-size: 14px; opacity: .92; }
+  .btn.sm { min-height: 44px; }
+  .fchip { min-height: 44px; }
+  .ibtn { height: 44px; min-width: 44px; }
+  .seg button { min-height: 40px; }
+  .hero h1 { font-size: 30px; }
+  .types3 { grid-template-columns: 1fr; }
+  .link { display: none; }
+  .ord-pg { padding: 18px 16px 20px 38px; }
+  .op .ref { left: -36px; width: 32px; font-size: 8.5px; }
+}
+@media (max-width: 460px) {
+  .bar { gap: 6px; padding: 0 8px; }
+  .brand { display: none; }
+  .seg { margin-left: auto; }
+  .seg button { padding: 6px 10px; }
+}
+.touch-hint { display: none; margin: 6px 2px 0; font-size: 12.5px; color: var(--ink-3); }
+@media (hover: none) { .src kbd, .card kbd, .grade kbd { display: none; } .pz-ctl { display: none; } .touch-hint { display: block; } }
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; } }
+/* shown only where scripts can't run, e.g. a phone's file preview */
+.nojs { margin: 0; padding: 12px max(16px, env(safe-area-inset-left, 0px)); background: var(--brass); color: #181b1e; font: 600 15px/1.4 var(--f-ui); }
+</style>
+</head>
+<body>
+<noscript><style>header.bar button, header.bar .seg { display: none !important; }</style><p class="nojs">This preview can't run the trainer. Open the file in a web browser on a computer (Chrome, Safari or Edge), or use the online link on a phone.</p></noscript>
+<header class="bar">
+  <button class="ibtn rail-btn" id="railBtn" aria-label="Pages">☰</button>
+  <div class="brand"><span class="mark">OPORD</span><span class="name">Shell Trainer</span><span class="scen">Buffalo Snow · 3/3/A clears OBJ WHITE</span></div>
+  <div class="seg" role="group" aria-label="Mode"><button type="button" data-mode="learn" aria-pressed="false">Learn</button><button type="button" data-mode="explore" aria-pressed="false">Explore</button></div>
+  <button class="ibtn" id="searchBtn" aria-label="Search fields"><svg class="ico" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5L21 21"/></svg><span class="lbl">Search fields</span><kbd>⌘K</kbd></button>
+  <button class="ibtn" id="helpBtn" aria-label="Help">?</button>
+</header>
+<div class="app">
+  <nav class="rail" id="rail" aria-label="Shell pages"></nav>
+  <main class="main" id="main"></main>
+  <aside class="src" id="src" aria-label="Where it comes from">
+    <div class="sheet-handle" id="handle"><button class="x" id="sheetX" aria-label="Close">×</button></div>
+    <div class="src-top" id="srcTop"></div>
+    <div class="viewer">
+      <div class="vtabs" id="vtabs" role="tablist"></div>
+      <div class="srcstrip" id="srcstrip" hidden></div>
+      <div class="doc" id="doc">
+        <div class="pane" id="pane-order"></div><div class="pane" id="pane-annex"></div>
+        <div class="pane" id="pane-map"><div class="pz mapz" id="mapStage"></div><p class="map-note">The issued 1:25,000 map, grid 16S GA. Numbered markers show where each step reads the map. Double-click or double-tap to zoom in or back out.</p></div><div class="pane" id="pane-shell"></div>
+      </div>
+    </div>
+  </aside>
+</div>
+<svg class="link" id="link" aria-hidden="true"><path id="linkPath"/><circle id="linkA" r="4"/><circle id="linkB" r="4"/></svg>
+<div class="modal" id="modal" role="dialog" aria-modal="true"></div>
+<div class="lbx" id="lbx"><button class="btn sm ghost x" id="lbxX" style="color:#fff;border-color:#fff">Close ✕</button><div class="pz" id="lbxPz"></div></div>
+<div class="sr" aria-live="polite" id="live"></div>
+
+<script src="data.js?v=8f4fe5a8"></script>
+<script src="annotations.js?v=3fecb840"></script>
+<script>
+(() => {
+  "use strict";
+  // ---------------------------------------------------------------- data
+  const W = window;
+  const SHELL = W.SHELL || {}, OV = W.OVERLAYS || {}, RES = W.RESOLVED || {}, BUILD = W.BUILD || {};
+  const DOCS = W.SOURCE_DOCS || { order: { paras: [] }, annex: [], shell: [] };
+  const MAPD = W.MAP || {};
+  const MAP_PTS = Object.assign({}, W.MAP_POINTS || {}, MAPD.points || {});
+  const IMG = W.IMAGES || {};
+  const src = (p) => IMG[p] || p;
+  const PAGES = W.PAGES.filter((p) => (p.kind === "overlay" ? OV[p.ov] : SHELL[p.id]));
+  const pageById = Object.fromEntries(PAGES.map((p) => [p.id, p]));
+  const ELEMENTS = W.ELEMENTS.filter((e) => pageById[e.page] && RES[e.id]);
+  const elById = Object.fromEntries(ELEMENTS.map((e) => [e.id, e]));
+  const byPage = {};
+  PAGES.forEach((p) => { byPage[p.id] = []; });
+  ELEMENTS.forEach((e) => byPage[e.page].push(e));
+  const AUTHOR = /author/.test(location.hash);
+  const TYPES = {
+    copy: { label: "From the order", short: "It is written in the PLT OPORD or an annex. Find it and copy it." },
+    derive: { label: "Work it out", short: "Not written anywhere. Reason it out from the order, the annexes and the map." },
+    std: { label: "From the shell form", short: "Printed on the blank shell form itself. Find it there and follow it." },
+  };
+  // Topics in briefing order. Each is cut into short lessons along the shell's own sections (a page's rows), so the
+  // cuts follow whatever shell is loaded: a page over LESSON_MAX fields is split at its rows into even parts, and
+  // small neighbours in the same topic are joined up to LESSON_MAX.
+  const LESSON_MAX = 10, LESSON_SMALL = 5;
+  const TOPICS = [
+    { t: "WARNO", p: ["p1"] },
+    { t: "Task organization & AO / AI", p: ["p3", "p2"] },
+    { t: "AO / AI on the map", p: ["o1"] },
+    { t: "Terrain & weather", p: ["p4", "p5"] },
+    { t: "GTAO overlays", p: ["o2", "o4"] },
+    { t: "Enemy", p: ["p6", "p7", "p8"] },
+    { t: "Friendly, civil & mission", p: ["p9", "p10", "p11"] },
+    { t: "Concept", p: ["p12", "p13"] },
+    { t: "COA sketch", p: ["p14"] },
+    { t: "Scheme of maneuver I–II", p: ["p15", "p16", "o3"] },
+    { t: "Scheme of maneuver III–IV", p: ["p17", "p18", "p19"] },
+    { t: "Micro-ops on the OBJ", p: ["o5"] },
+    { t: "Fires, coordination, sustainment & C2", p: ["p20", "p21"] },
+  ].map((l) => ({ ...l, p: l.p.filter((id) => pageById[id]) })).filter((l) => l.p.length);
+  const pageFields = (pid) => {
+    const p = pageById[pid];
+    if (!p.rows) return byPage[pid];
+    const list = p.rows.flatMap((r) => (r.f || []).map((f) => elById[f.split(":")[0]])).filter(Boolean);
+    byPage[pid].forEach((e) => { if (!list.includes(e)) list.push(e); });
+    return list;
+  };
+  function pageParts(pid) {
+    const p = pageById[pid], all = pageFields(pid).map((e) => e.id);
+    let rows = (p.rows || []).map((r) => ({ pid, h: r.h || "", f: (r.f || []).map((f) => f.split(":")[0]).filter((id) => elById[id]) })).filter((r) => r.f.length);
+    const seen = new Set(rows.flatMap((r) => r.f)), rest = all.filter((id) => !seen.has(id));
+    if (!rows.length) rows = [{ pid, h: "", f: rest }]; else if (rest.length) rows[rows.length - 1].f.push(...rest);
+    if (all.length <= LESSON_MAX) return [{ pid, f: all, secs: rows }];
+    rows = rows.flatMap((r) => {  // a row bigger than a lesson is cut evenly
+      const n = Math.ceil(r.f.length / LESSON_MAX), size = Math.ceil(r.f.length / n);
+      return n < 2 ? [r] : Array.from({ length: n }, (_, k) => ({ ...r, f: r.f.slice(k * size, (k + 1) * size) }));
+    });
+    const k = Math.ceil(all.length / LESSON_MAX), target = all.length / k, parts = [];
+    let cur = null;
+    rows.forEach((r) => {
+      if (cur && parts.length < k && Math.abs(cur.f.length + r.f.length - target) > Math.abs(cur.f.length - target)) cur = null;
+      if (!cur) { cur = { pid, f: [], secs: [] }; parts.push(cur); }
+      cur.f.push(...r.f); cur.secs.push(r);
+    });
+    if (parts.length > 1) parts.forEach((q, i) => { q.part = `${i + 1} of ${parts.length}`; });
+    return parts;
+  }
+  const LESSONS = [];
+  TOPICS.forEach((T) => {
+    const mine = [];
+    T.p.flatMap(pageParts).forEach((u) => {
+      const cur = mine[mine.length - 1];
+      if (cur && (cur.fields.length < LESSON_SMALL || u.f.length < LESSON_SMALL) && cur.fields.length + u.f.length <= LESSON_MAX) {
+        cur.fields.push(...u.f); cur.units.push(u); if (!cur.p.includes(u.pid)) cur.p.push(u.pid);
+      } else mine.push({ topic: T.t, p: [u.pid], fields: u.f.slice(), units: [u] });
+    });
+    mine.forEach((L, k) => { L.t = mine.length > 1 ? `${T.t} · ${k + 1} of ${mine.length}` : T.t; LESSONS.push(L); });
+  });
+  LESSONS.forEach((l, i) => { l.i = i; });
+  const lessonOfField = {};  // Learn hides every field of a later lesson, not just the rest of this one
+  LESSONS.forEach((l) => l.fields.forEach((id) => { if (lessonOfField[id] === undefined) lessonOfField[id] = l.i; }));
+  const lessonOf = {};
+  LESSONS.forEach((l) => l.p.forEach((pid) => { if (lessonOf[pid] === undefined) lessonOf[pid] = l.i; }));
+
+  // ---------------------------------------------------------------- helpers
+  const $ = (id) => document.getElementById(id);
+  const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+  const stripBold = (s) => s.replace(/\*\*/g, "");
+  const isMobile = () => window.innerWidth <= 820;
+  function fmt(s) {
+    let h = esc(s.replace(/^>>\s*/, ""));
+    h = h.replace(/\*\*([\s\S]+?)\*\*/g, "<b>$1</b>");
+    h = h.replace(/\b(?:16S\s+)?GA\s+\d{3,4}\s+\d{3,4}\b/g, (m) => `<span class="mono">${m}</span>`);
+    h = h.replace(/\b\d{6}[A-Z]{3}\d{4}\b/g, (m) => `<span class="mono">${m}</span>`);
+    h = h.replace(/\b3[01][0-2]\d[0-5]\d(?:–\d{4})?\b/g, (m) => `<span class="mono">${m}</span>`);
+    return h.split("\n").filter((l) => l.trim() && !/^[ØøØ•·\s]+$/.test(l)).join("<br>");
+  }
+  const pageNo = (p) => (p.kind === "overlay" ? "Overlay " + p.tab.replace(/^O/, "") : p.id === "p1" ? "WARNO" : p.id === "p22" ? "REF" : (p.title.match(/^PG \d+/) || [p.tab])[0]);
+  const pageName = (p) => (p.id === "p1" ? "Warning order" : p.id === "p22" ? "Doctrinal tasks & purposes" : p.title.replace(/^(PG \d+|Reference|Overlay \d+)\s*·\s*/, ""));
+
+  // ---------------------------------------------------------------- citations
+  const TAG_RE = /\[((?:BS|ANX|MAP|SHELL|STD)[^\]]*)\]/g;
+  const MAP_NAMES = { ORP: "PLT ORP", ASLT: "SQD ORP (= ASLT POS)",RP: "RP", SBF: "SBF", ATMAP: "ATM assault position", K1: "K1 · OBJ RED", K2: "K2 · OBJ WHITE",
+    OBJ_RED: "OBJ RED", OBJ_BLUE: "OBJ BLUE", HILL545: "Hill 545", HILL568: "Hill 568", AXP7: "AXP #07", CREEK_X: "Creek crossing (PL BUD)",
+    CP1: "CP 1", CP2: "CP 2 · Anzio Rd", POND: "Daniels Pond", COCP: "CO CP" };
+  const MAP_ALIAS = { OBJ_RED: "K1", OBJWHITE: "K2", OBJ_WHITE: "K2" };
+  // "1509 8050" -> [15.09, 80.50] km in the GA square
+  const gridEN = (e, n) => [+e / 10 ** (e.length - 2), +n / 10 ** (n.length - 2)];
+  const ROMAN = ["i", "ii", "iii", "iv", "v", "vi", "vii", "viii", "ix", "x", "xi", "xii"];
+  const LETTERS = "abcdefghijklmnop".split("");
+  function rangeOf(a, b) {
+    for (const seq of [ROMAN, LETTERS]) {
+      const i = seq.indexOf(a), j = seq.indexOf(b);
+      if (i >= 0 && j >= i) return seq.slice(i, j + 1);
+    }
+    if (/^\d+$/.test(a) && /^\d+$/.test(b)) return Array.from({ length: +b - +a + 1 }, (_, k) => String(+a + k));
+    return [a];
+  }
+  const paras = DOCS.order.paras || [];
+  const paraIdx = Object.fromEntries(paras.map((p, i) => [p.id, i]));
+  const under = (pid, id) => pid === id || pid.startsWith(id + ".");
+  function parseTag(tag) {
+    if (tag.startsWith("BS")) {
+      if (/header|title/i.test(tag)) return { fam: "order", ids: ["@title"], label: tag };
+      const m = tag.match(/¶\s*([0-9][0-9a-z.]*?)(?:[–-]([0-9a-z]+))?$/i);
+      if (!m) return { fam: "order", ids: [], label: tag };
+      const parts = m[1].split(".");
+      const ids = m[2] ? rangeOf(parts.pop(), m[2]).map((x) => [...parts, x].join(".")) : [m[1]];
+      return { fam: "order", ids: ids.filter((id) => paras.some((p) => under(p.id, id))), label: tag };
+    }
+    if (tag.startsWith("ANX")) {
+      const m = tag.match(/ANX\s+([A-C])(?:-([A-Z]+))?/);
+      const secs = (DOCS.annex || []).filter((s) => m && (m[2] ? s.id === `${m[1]}-${m[2]}` : s.id.startsWith(m[1] + "-"))).map((s) => s.id);
+      return { fam: "annex", secs, label: tag };
+    }
+    if (tag.startsWith("SHELL")) {
+      const id = tag.replace(/^SHELL\s*/, "");
+      return { fam: "shell", secs: (DOCS.shell || []).some((s) => s.id === id) ? [id] : [], label: tag };
+    }
+    if (tag.startsWith("MAP")) {
+      const pts = [];
+      tag.replace(/^MAP\s*/, "").split(/\s*[,+]\s*/).filter(Boolean).forEach((nm) => {
+        const g = nm.match(/^(?:GA\s+)?(\d{3,5})\s+(\d{3,5})$/);
+        if (g) { pts.push({ name: "GA " + g[1] + " " + g[2], en: gridEN(g[1], g[2]) }); return; }
+        const key = MAP_ALIAS[nm] || nm;
+        if (MAP_PTS[key]) pts.push({ name: MAP_NAMES[key] || nm, en: MAP_PTS[key] });
+      });
+      return { fam: "map", pts, label: tag };
+    }
+    return { fam: "std", label: tag };
+  }
+  // one evidence line -> its source tags, each with the quote that follows it
+  function citesIn(text) {
+    const out = [];
+    let m;
+    TAG_RE.lastIndex = 0;
+    const hits = [];
+    while ((m = TAG_RE.exec(text))) hits.push({ tag: m[1], at: m.index, end: TAG_RE.lastIndex });
+    hits.forEach((h, k) => {
+      const seg = text.slice(h.end, k + 1 < hits.length ? hits[k + 1].at : text.length);
+      const q = seg.match(/“([^”]{6,})”/);
+      out.push({ ...parseTag(h.tag), quote: q ? q[1] : "" });
+    });
+    return out;
+  }
+  const evCache = {};
+  function evidence(el) {
+    if (evCache[el.id]) return evCache[el.id];
+    const lines = el.chain ? el.chain.map((t) => ({ t, res: /^→/.test(t) })) : [];
+    if (el.from) el.from.forEach((t) => lines.push({ t, res: false, from: !!el.chain }));
+    const ev = lines.map((l, i) => ({ ...l, n: i + 1, cites: citesIn(l.t) }));
+    const ruleCites = (el.cite ? el.cite.split(" · ") : []).map((t) => ({ ...parseTag(t.trim()), quote: "" }));
+    return (evCache[el.id] = { lines: ev, ruleCites, noteCites: el.note ? citesIn(el.note) : [] });
+  }
+  // which fields cite each order paragraph (for the margin counts in Explore)
+  const usesOf = {};
+  ELEMENTS.forEach((el) => evidence(el).lines.forEach((l) => l.cites.forEach((c) => {
+    if (c.fam !== "order") return;
+    c.ids.forEach((id) => { (usesOf[id] = usesOf[id] || new Set()).add(el.id); });
+  })));
+
+  // ---------------------------------------------------------------- state
+  const STORE = "opord-shell-trainer-v6";  // v6: Overlay 0 merged into Overlay 1 (lesson positions reset, grades kept for fields that still exist)
+  let saved = {};
+  try { saved = JSON.parse(localStorage.getItem(STORE) || "{}"); } catch (e) { saved = {}; }
+  if (!saved.grades) try { const old = JSON.parse(localStorage.getItem("opord-shell-trainer-v5") || localStorage.getItem("opord-shell-trainer-v4") || localStorage.getItem("opord-shell-trainer-v3") || "{}"); saved = { mode: old.mode, page: old.page, grades: old.grades || {} }; } catch (e) { /* storage unavailable */ }
+  Object.keys(saved.grades || {}).forEach((id) => { if (!elById[id]) delete saved.grades[id]; });
+  const st = {
+    mode: saved.mode === "explore" ? "explore" : "learn",
+    view: "home",          // home | lessonStart | step | lessonEnd | page
+    page: pageById[saved.page] ? saved.page : PAGES[0].id,
+    sel: null,
+    grades: saved.grades || {},
+    pos: saved.pos || {},   // lesson index -> next step index
+    lesson: 0, queue: [], qi: 0, review: false,
+    stage: "ask", shown: 0, cloze: new Set(), picked: null, tab: "order", hlIdx: 0,
+  };
+  function save() {
+    try { localStorage.setItem(STORE, JSON.stringify({ mode: st.mode, page: st.page, grades: st.grades, pos: st.pos })); } catch (e) { /* storage unavailable */ }
+  }
+  const curId = () => (st.view === "step" ? st.queue[st.qi] : st.sel);
+
+  // ---------------------------------------------------------------- page index
+  function renderRail() {
+    let h = "", group = "";
+    PAGES.forEach((p) => {
+      if (p.group !== group) { group = p.group; h += `<h4>${esc(group)}</h4>`; }
+      const ids = pageFields(p.id).map((e) => e.id);
+      const g = ids.filter((id) => st.grades[id]).length;
+      const done = g === ids.length && ids.length;
+      const cur = p.id === shownPage();
+      h += `<button class="ri ${p.kind === "overlay" ? "ov" : ""}" data-page="${p.id}" aria-current="${cur}"><span class="pn">${esc(p.kind === "overlay" ? p.tab.replace(/^O/, "") : pageNo(p))}</span><span>${esc(pageName(p))}</span>${done ? `<span class="done">✓</span>` : g ? `<span class="prog">${g}/${ids.length}</span>` : "<span></span>"}</button>`;
+    });
+    $("rail").innerHTML = h;
+  }
+  const shownPage = () => (st.view === "step" ? elById[st.queue[st.qi]].page : st.view === "page" ? st.page : null);
+
+  // ---------------------------------------------------------------- field values (the panel's answer box)
+  function tableView(items) {
+    const cols = items.map((it) => ({ label: it.label || "", text: it.text, lines: it.text.split("\n").map((s) => s.trim()).filter(Boolean) }));
+    const freq = {};
+    cols.forEach((c) => { freq[c.lines.length] = (freq[c.lines.length] || 0) + 1; });
+    const N = +Object.keys(freq).sort((a, b) => freq[b] - freq[a] || b - a)[0];
+    if (N <= 1) {
+      return `<div class="tbl"><table><thead><tr>${cols.map((c) => `<th>${esc(c.label)}</th>`).join("")}</tr></thead><tbody><tr>${cols.map((c) => `<td>${fmt(c.text)}</td>`).join("")}</tr></tbody></table></div>`;
+    }
+    if (cols[0] && cols[0].lines.length === 2 * N) {
+      const l = cols[0].lines;
+      cols[0].lines = Array.from({ length: N }, (_, k) => `${l[2 * k]} · ${l[2 * k + 1]}`);
+    }
+    const tc = cols.filter((c) => c.lines.length === N), notes = cols.filter((c) => c.lines.length !== N);
+    if (tc.length < 2) return kvView(items);
+    const rows = Array.from({ length: N }, (_, k) => `<tr>${tc.map((c) => `<td>${fmt(c.lines[k])}</td>`).join("")}</tr>`).join("");
+    return `<div class="tbl"><table><thead><tr>${tc.map((c) => `<th>${esc(c.label)}</th>`).join("")}</tr></thead><tbody>${rows}</tbody></table></div>` +
+      (notes.length ? `<dl class="kv wide">${notes.map((c) => `<div><dt>${esc(c.label)}</dt><dd>${fmt(c.text)}</dd></div>`).join("")}</dl>` : "");
+  }
+  function kvView(items) {
+    const long = items.some((it) => it.text.length > 90);
+    return `<dl class="kv ${long ? "wide" : ""}">${items.map((it) => `<div><dt>${esc(it.label || "")}</dt><dd>${fmt(it.text)}</dd></div>`).join("")}</dl>`;
+  }
+  function timelineView(items) {
+    const ents = [];
+    const T = /^((?:NLT |~)?\d{6}(?:–\d{4})?)$/;
+    items.forEach((it) => {
+      const lines = it.text.split("\n").map((s) => s.trim()).filter(Boolean);
+      const ti = lines.findIndex((l) => T.test(stripBold(l)));
+      if (ti >= 0 && lines.length <= 3) ents.push({ t: stripBold(lines[ti]), e: lines.filter((_, k) => k !== ti).join(" "), b: /\*\*/.test(lines.join("")) });
+      else lines.forEach((l) => {
+        const m = stripBold(l).match(/^((?:NLT |~)?\d{6}(?:–\d{4})?)\s+(.*)$/);
+        ents.push(m ? { t: m[1], e: m[2], b: /\*\*/.test(l) } : { t: "", e: stripBold(l) });
+      });
+    });
+    return `<ol class="tl">${ents.map((e) => `<li class="${e.b ? "strong" : ""}"><span class="tt">${esc(e.t || "·")}</span><span class="te">${fmt(e.e)}</span></li>`).join("")}</ol>`;
+  }
+  function graphicView(el) {
+    const pg = SHELL[el.page];
+    const s = pg && pg.shapes.find((x) => x[0] === "img");
+    if (!s) return `<p>Use the graphic from your scenario packet.</p>`;
+    const [, file, , , , , sx, sy, sw, sh, ow, oh] = s;
+    return `<div class="gfx"><svg viewBox="${sx} ${sy} ${sw} ${sh}" preserveAspectRatio="xMidYMid meet"><image href="${esc(src(file))}" width="${ow}" height="${oh}"/></svg></div>
+      <div class="ctrl"><button class="btn sm ghost" data-lbx="${esc(file)}" data-crop="${[sx, sy, sw, sh, ow, oh].join(",")}">Enlarge</button></div>`;
+  }
+  function refView() {
+    const sec = (DOCS.shell || []).find((s) => s.id === "REF");
+    if (!sec) return "";
+    return `<div class="refcloud">${sec.items.map((t) => { const [k, v] = t.split(/:\s(.+)/); return `<div><b>${esc(k)}</b>${esc(v || "")}</div>`; }).join("")}</div>`;
+  }
+  function valueHTML(el) {
+    const r = RES[el.id];
+    if (el.id === "ref") return refView();
+    if (el.graphic) return graphicView(el);
+    if (r.rows && r.rows.length) {
+      const head = el.grid ? `<thead><tr>${el.grid.map((g) => `<th>${esc(g)}</th>`).join("")}</tr></thead>` : "";
+      return `<div class="tbl"><table>${head}<tbody>${r.rows.map((row) => `<tr>${row.map((t) => `<td>${fmt(t)}</td>`).join("")}</tr>`).join("")}</tbody></table></div>`;
+    }
+    const items = (r.items || []).filter((it) => it.text.trim());
+    if (!items.length) return `<p>${el.noAnswer ? "See the page." : "Nothing filled here yet."}</p>`;
+    if (el.view === "timeline") return timelineView(items);
+    if (el.view === "table" && r.trows && r.trows.length > 1) {
+      const labels = el.labels || [], width = Math.max(...r.trows.map((x) => x.length));
+      return `<div class="tbl"><table><thead><tr>${Array.from({ length: width }, (_, k) => `<th>${esc(labels[k] || "")}</th>`).join("")}</tr></thead><tbody>${r.trows.map((row) => `<tr>${row.map((t) => `<td>${fmt(t)}</td>`).join("")}</tr>`).join("")}</tbody></table></div>`;
+    }
+    if (el.view === "table") return tableView(items);
+    if (items.some((it) => it.label)) return kvView(items);
+    return items.map((it) => `<p>${fmt(it.text)}</p>`).join("");
+  }
+
+  // ---------------------------------------------------------------- learn-mode visibility
+  function hidden(id) {
+    if (st.view !== "step") return false;
+    const cur = st.queue[st.qi];
+    if (id === cur) return st.stage !== "done";
+    if (st.review) return false;
+    const pos = st.queue.indexOf(id);
+    return pos >= 0 ? pos > st.qi : (lessonOfField[id] ?? -1) > st.lesson;
+  }
+
+  // ---------------------------------------------------------------- page rendering
+  // A shell page is the traced blank form (vector) with every filled text box and drawing placed exactly where the
+  // filled shell has it. Fields are hotspots on the page; Learn hides the ones not reached yet.
+  const INK = { blue: "#0a218c", red: "#cc0d0d", black: "#111", purple: "#731a99", green: "#1a8026", gray: "#737373" };
+  const PT = 2000 / 792;  // shell units per point (the PDF page is 792 pt wide)
+  function chipHTML2(el) {
+    const g = st.grades[el.id];
+    const stale = AUTHOR && RES[el.id].stale ? `<span class="flag-dot" title="Changed since its explanation was written"></span>` : "";
+    return `<button class="fchip t-${el.type} ${el.id === curId() ? "is-sel" : ""}" data-id="${el.id}"><i></i>${esc(el.name)}${g ? `<span class="gd ${g}" title="${g}"></span>` : ""}${stale}</button>`;
+  }
+  let viewer = null;  // current pan-zoom viewer on the page
+  function renderPage(pid) {
+    const p = pageById[pid];
+    viewer = null;
+    const k = PAGES.indexOf(p), prev = PAGES[k - 1], next = PAGES[k + 1];
+    const nav = st.view === "page";
+    const head = `<div class="pg-bar">${nav ? `<button class="btn sm ghost" data-page-go="${prev ? prev.id : ""}" ${prev ? "" : "disabled"} aria-label="Previous page">‹</button>` : ""}
+      <div class="pg-t"><span class="pg-n">${esc(p.kind === "overlay" ? "OVERLAY " + p.tab.replace(/^O/, "") : pageNo(p))}</span>${esc(pageName(p))}</div>
+      ${nav ? `<button class="btn sm ghost" data-page-go="${next ? next.id : ""}" ${next ? "" : "disabled"} aria-label="Next page">›</button>` : ""}</div>
+      ${p.about ? `<p class="pg-about">${esc(p.about)}</p>` : ""}`;
+    const stage = p.kind === "overlay" ? `<div class="pz" id="pz"></div>` : `<div class="pz sheetpz" id="pz" style="--ar:2000 / ${SHELL[pid].h}"></div>`;
+    $("main").innerHTML = `<article class="sheet">${head}${stage}<p class="touch-hint">Pinch to zoom · double-tap to zoom in, double-tap again to see the whole page</p><div class="row-h">${p.kind === "overlay" ? "Labels on this overlay" : "Fields on this page"}</div><div class="fchips">${pageFields(pid).map(chipHTML2).join("")}</div></article>`;
+    $("main").dataset.page = pid;
+    mountViewer(pid);
+  }
+  function refreshFields() {
+    document.querySelectorAll("#main .fchip").forEach((n) => { n.outerHTML = chipHTML2(elById[n.dataset.id]); });
+    if (viewer) viewer.refresh();
+  }
+
+  // ---------------------------------------------------------------- pan / zoom viewer (overlays, sketch, enlarge)
+  function PanZoom(stage, opts) {
+    const { w, h, html, mini } = opts;
+    const margin = opts.margin || 1, maxZ = opts.maxZoom || 3;
+    stage.innerHTML = `<div class="pz-c ${opts.cls || ""}" style="width:${w}px;height:${h}px">${html}</div>
+      <div class="pz-ctl"><button data-z="-" aria-label="Zoom out">−</button><button data-z="fit">Fit</button><button data-z="+" aria-label="Zoom in">+</button></div>
+      ${mini ? `<div class="pz-mini"><img src="${esc(mini)}" alt=""><div class="vp"></div><div class="tg" style="display:none"></div></div>` : ""}`;
+    const c = stage.querySelector(".pz-c");
+    let s = 1, x = 0, y = 0, fitS = 1, linkT = 0;
+    const apply = (anim) => {
+      c.style.transition = anim ? "transform .45s cubic-bezier(.2,.7,.2,1)" : "none";
+      c.style.transform = `translate(${x}px, ${y}px) scale(${s})`;
+      c.style.setProperty("--inv", (1 / s).toFixed(4));
+      clearTimeout(linkT);  // the connector line follows every zoom and pan (hidden while the view animates)
+      if (anim) { hideLink(); linkT = setTimeout(scheduleLink, 470); } else scheduleLink();
+      if (mini) {
+        const vp = stage.querySelector(".vp"), sw = stage.clientWidth, sh = stage.clientHeight;
+        const L = Math.max(0, -x / s / w), T = Math.max(0, -y / s / h), R = Math.min(1, (sw - x) / s / w), B = Math.min(1, (sh - y) / s / h);
+        Object.assign(vp.style, { left: L * 100 + "%", top: T * 100 + "%", width: (R - L) * 100 + "%", height: (B - T) * 100 + "%" });
+      }
+    };
+    const clampXY = () => {
+      const sw = stage.clientWidth, sh = stage.clientHeight, cw = w * s, ch = h * s;
+      x = cw <= sw ? (sw - cw) / 2 : Math.min(0, Math.max(sw - cw, x));
+      y = ch <= sh ? (sh - ch) / 2 : Math.min(0, Math.max(sh - ch, y));
+    };
+    const fit = (anim) => {
+      fitS = Math.min(stage.clientWidth / w, stage.clientHeight / h) * margin;
+      s = fitS; clampXY(); apply(anim);
+    };
+    const zoomAt = (ns, px, py, anim) => {
+      ns = Math.max(fitS, Math.min(fitS * Math.max(5, maxZ), ns));
+      x = px - (px - x) * (ns / s); y = py - (py - y) * (ns / s); s = ns; clampXY(); apply(anim);
+    };
+    const focus = (b, anim = true, minS = 0) => {  // b in content px: [x, y, w, h]; minS = smallest scale to read it
+      if (!b) { fit(anim); return; }
+      const sw = stage.clientWidth, sh = stage.clientHeight;
+      fitS = Math.min(sw / w, sh / h) * margin;
+      const want = Math.max(Math.min((sw * 0.55) / b[2], (sh * 0.55) / b[3]), minS);
+      s = Math.max(fitS, Math.min(fitS * Math.max(maxZ, Math.min(6, minS / fitS)), want));
+      x = b[2] * s > sw - 24 ? 12 - b[0] * s : sw / 2 - (b[0] + b[2] / 2) * s;
+      y = b[3] * s > sh - 24 ? 12 - b[1] * s : sh / 2 - (b[1] + b[3] / 2) * s;
+      clampXY(); apply(anim);
+      if (mini) {
+        const tg = stage.querySelector(".tg");
+        Object.assign(tg.style, { display: "block", left: (b[0] + b[2] / 2) / w * 100 + "%", top: (b[1] + b[3] / 2) / h * 100 + "%" });
+      }
+    };
+    stage.querySelector(".pz-ctl").addEventListener("click", (e) => {
+      const z = e.target.closest("button")?.dataset.z;
+      if (!z) return;
+      if (z === "fit") fit(true); else zoomAt(s * (z === "+" ? 1.5 : 1 / 1.5), stage.clientWidth / 2, stage.clientHeight / 2, true);
+    });
+    // drag to pan, pinch to zoom, ctrl/⌘ + wheel to zoom at the cursor
+    const pts = new Map();
+    let moved = false, last = null, pinch = null;
+    stage.addEventListener("pointerdown", (e) => {
+      if (e.target.closest(".pz-ctl")) return;
+      pts.set(e.pointerId, { x: e.clientX, y: e.clientY });
+      moved = false; last = { x: e.clientX, y: e.clientY };
+      if (pts.size === 2) {
+        const [a, b] = [...pts.values()];
+        pinch = { d: Math.hypot(a.x - b.x, a.y - b.y), s };
+      }
+    });
+    stage.addEventListener("pointermove", (e) => {
+      if (!pts.has(e.pointerId)) return;
+      pts.set(e.pointerId, { x: e.clientX, y: e.clientY });
+      const r = stage.getBoundingClientRect();
+      if (pts.size === 2 && pinch) {
+        const [a, b] = [...pts.values()];
+        zoomAt(pinch.s * Math.hypot(a.x - b.x, a.y - b.y) / pinch.d, (a.x + b.x) / 2 - r.left, (a.y + b.y) / 2 - r.top, false);
+        moved = true; return;
+      }
+      const dx = e.clientX - last.x, dy = e.clientY - last.y;
+      if (!moved && Math.hypot(dx, dy) < 5) return;
+      if (!moved) { moved = true; try { stage.setPointerCapture(e.pointerId); } catch (err) { /* ignore */ } }
+      x += dx; y += dy; last = { x: e.clientX, y: e.clientY }; clampXY(); apply(false);
+    });
+    let lastTap = null, lastType = "";
+    const toggleAt = (px, py) => { if (s > fitS * 1.05) fit(true); else zoomAt(s * 2, px, py, true); };
+    const up = (e) => {
+      pts.delete(e.pointerId); if (pts.size < 2) pinch = null;
+      lastType = e.pointerType;
+      if (e.pointerType !== "touch" || moved) return;
+      const r = stage.getBoundingClientRect(), now = Date.now();  // touch double-tap (dblclick is not reliable on phones)
+      if (lastTap && now - lastTap.t < 320 && Math.hypot(e.clientX - lastTap.x, e.clientY - lastTap.y) < 30) { toggleAt(e.clientX - r.left, e.clientY - r.top); lastTap = null; }
+      else lastTap = { t: now, x: e.clientX, y: e.clientY };
+    };
+    stage.addEventListener("pointerup", up);
+    stage.addEventListener("pointercancel", up);
+    stage.addEventListener("click", (e) => { if (moved) { e.stopPropagation(); e.preventDefault(); moved = false; } }, true);
+    stage.addEventListener("wheel", (e) => {
+      const r = stage.getBoundingClientRect();
+      if (e.ctrlKey || e.metaKey) { e.preventDefault(); zoomAt(s * Math.exp(-e.deltaY * 0.01), e.clientX - r.left, e.clientY - r.top, false); }
+      else if (s > fitS + 1e-3) { e.preventDefault(); x -= e.deltaX; y -= e.deltaY; clampXY(); apply(false); }
+    }, { passive: false });
+    stage.addEventListener("dblclick", (e) => { if (lastType === "touch") return; const r = stage.getBoundingClientRect(); toggleAt(e.clientX - r.left, e.clientY - r.top); });
+    fit(false);
+    return { focus, fit, el: c, w, h, view: () => ({ s, x, y, sw: stage.clientWidth, sh: stage.clientHeight }) };
+  }
+
+  function mountViewer(pid) {
+    const p = pageById[pid], stage = $("pz");
+    if (p.kind === "overlay") {
+      const o = OV[p.ov];
+      viewer = PanZoom(stage, { w: 2000, h: o.h, mini: src(o.file), html: `<img src="${esc(src(o.file))}" alt="${esc(p.title)}"><div class="hots"></div><div class="masks"></div><div class="spot" style="display:none"></div>` });
+    } else {
+      const pg = SHELL[pid];
+      viewer = PanZoom(stage, { w: 2000, h: pg.h, cls: "paper", margin: 0.975, maxZoom: 2.4, html: sheetHTML(pg, pid) });
+      fitTexts(viewer.el);
+      if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => { if (viewer && $("main").dataset.page === pid) fitTexts(viewer.el); });
+    }
+    viewer.refresh = () => paintViewer(pid);
+    paintViewer(pid);
+  }
+  function pageLabel(pid) {
+    const p = pageById[pid];
+    if (!p) return "";
+    if (pid === "p1") return "PG 1 OF 1";
+    const m = p.title.match(/^PG (\d+)/);
+    return m ? `PG ${m[1]} OF 20` : "";
+  }
+  function sheetHTML(pg, pid) {
+    const shapes = [], marks = [];
+    const lab = pg.pn && pageLabel(pid);
+    if (lab) {
+      const [x0, y0, x1, y1] = pg.pn;
+      shapes.push(`<rect x="${x0 - 6}" y="${y0 - 6}" width="${x1 - x0 + 12}" height="${y1 - y0 + 12}" fill="#fff"/><text x="${x1}" y="${y1}" text-anchor="end" font-family="Arial, Helvetica, sans-serif" font-size="${((y1 - y0) / 0.72).toFixed(1)}" fill="#26282b">${lab}</text>`);
+    }
+    pg.shapes.forEach((sh, k) => {
+      const op = sh[0], nums = sh.slice(1).filter((v) => typeof v === "number"), words = sh.slice(1).filter((v) => typeof v !== "number");
+      const col = INK[words.find((w) => INK[w])] || INK.blue;
+      const dash = (w) => (words.includes("dash") ? ` stroke-dasharray="${w * 3} ${w * 2}"` : "");
+      const at = ` data-si="${k}"`;
+      if (op === "white") shapes.push(`<rect${at} x="${nums[0]}" y="${nums[1]}" width="${nums[2]}" height="${nums[3]}" fill="#fff"/>`);
+      else if (op === "img") {
+        const [, file, x, y, w, h, sx, sy, sw, shh, ow, oh] = sh;
+        shapes.push(`<g${at}><svg x="${x}" y="${y}" width="${w}" height="${h}" viewBox="${sx} ${sy} ${sw} ${shh}" preserveAspectRatio="none"><image href="${esc(src(file))}" width="${ow}" height="${oh}"/></svg><rect x="${x}" y="${y}" width="${w}" height="${h}" fill="none" stroke="#000" stroke-width="1.5"/></g>`);
+      } else if (op === "line" || op === "arrow") {
+        const w = nums[nums.length - 1], pts = [];
+        for (let i = 0; i + 1 < nums.length - 1; i += 2) pts.push([nums[i], nums[i + 1]]);
+        let g = `<polyline points="${pts.map((q) => q.join(",")).join(" ")}" fill="none" stroke="${col}" stroke-width="${w}"${dash(w)} stroke-linejoin="round"/>`;
+        if (op === "arrow") {
+          const [x1, y1] = pts[pts.length - 2], [x2, y2] = pts[pts.length - 1], a = Math.atan2(y2 - y1, x2 - x1), z = w * 5;
+          g += `<polygon points="${x2},${y2} ${x2 - z * Math.cos(a - 0.45)},${y2 - z * Math.sin(a - 0.45)} ${x2 - z * Math.cos(a + 0.45)},${y2 - z * Math.sin(a + 0.45)}" fill="${col}"/>`;
+        }
+        shapes.push(`<g${at}>${g}</g>`);
+      } else if (op === "circle") shapes.push(`<circle${at} cx="${nums[0]}" cy="${nums[1]}" r="${nums[2]}" fill="none" stroke="${col}" stroke-width="${nums[3]}"${dash(nums[3])}/>`);
+      else if (op === "rect") shapes.push(`<rect${at} x="${nums[0]}" y="${nums[1]}" width="${nums[2]}" height="${nums[3]}" fill="${words.includes("fill") ? "#fff" : "none"}" stroke="${col}" stroke-width="${nums[4]}"${dash(nums[4])}/>`);
+      else if (op === "unit") {
+        const [x, y, w, h, lw] = nums;
+        shapes.push(`<g${at}><rect x="${x}" y="${y}" width="${w}" height="${h}" fill="#5494db" stroke="${col}" stroke-width="${lw}"/><path d="M${x},${y}L${x + w},${y + h}M${x},${y + h}L${x + w},${y}" stroke="${col}" stroke-width="${lw}"/>${words.includes("tm") ? `<circle cx="${x + w / 2}" cy="${y - 13.2}" r="8.8" fill="${col}"/>` : ""}</g>`);
+      } else if (op === "tri" || op === "diamond" || op === "star") {
+        const [cx, cy, z] = nums;
+        let q = [];
+        if (op === "tri") q = [[cx, cy - z], [cx + z, cy + z * 0.8], [cx - z, cy + z * 0.8]];
+        if (op === "diamond") q = [[cx, cy - z], [cx + z, cy], [cx, cy + z], [cx - z, cy]];
+        if (op === "star") for (let i = 0; i < 10; i++) { const r = i % 2 ? z * 0.42 : z, a = -Math.PI / 2 + i * Math.PI / 5; q.push([cx + r * Math.cos(a), cy + r * Math.sin(a)]); }
+        const filled = op === "star" || words.includes("fill");
+        shapes.push(`<polygon${at} points="${q.map((v) => v.map((n) => n.toFixed(1)).join(",")).join(" ")}" fill="${filled ? col : "none"}" stroke="${col}" stroke-width="${filled ? 0 : 3}"/>`);
+      } else if (op === "check") {
+        marks.push(`<div class="stx b"${at} style="left:${nums[0]}px;top:${nums[1]}px;width:40px;height:40px;font-size:${((nums[2] || 14) * PT).toFixed(1)}px">✓</div>`);
+      }
+    });
+    const texts = pg.texts.map((t, k) => {
+      const [x, y, w, h, size, flags, text] = t;
+      if (!text.trim()) return "";
+      const f = flags.split(/\s+/);
+      const col = INK[f.find((v) => INK[v])] || INK.blue;
+      const cls = ["stx", f.includes("w") ? "w" : "", f.includes("b") ? "b" : "", f.includes("c") ? "c" : ""].filter(Boolean).join(" ");
+      return `<div class="${cls}" data-ti="${k}" data-fs="${size}" style="left:${x}px;top:${y}px;width:${w}px;height:${h}px;font-size:${(size * PT).toFixed(1)}px;color:${col}">${esc(text).replace(/\*\*([\s\S]+?)\*\*/g, "<b>$1</b>")}</div>`;
+    }).join("");
+    return `<svg class="form" viewBox="0 0 2000 ${pg.h}" aria-hidden="true">${pg.d ? `<path class="ink-form" d="${pg.d}"/>` : ""}${shapes.join("")}</svg>
+      <div class="ans">${texts}${marks.join("")}</div><div class="cue t-copy" style="display:none"></div><div class="hots"></div><div class="spot" style="display:none"></div>`;
+  }
+  // shrink a text box's type until it fits its box, the way the PDF filler does (down to 4.2 pt)
+  function fitTexts(root) {
+    root.querySelectorAll(".stx[data-ti]").forEach((n) => {
+      const H = parseFloat(n.style.height) + 2;
+      let fs = +n.dataset.fs;
+      n.style.fontSize = (fs * PT).toFixed(1) + "px";
+      while (fs > 4.2 && n.scrollHeight > H) { fs -= 0.25; n.style.fontSize = (fs * PT).toFixed(1) + "px"; }
+    });
+  }
+  function paintViewer(pid) {
+    if (!viewer) return;
+    const p = pageById[pid], els = pageFields(pid), cur = curId();
+    viewer.el.querySelector(".hots").innerHTML = els.flatMap((el) => (RES[el.id].boxes || []).map((b) => [el, b]))
+      .sort((p, q) => q[1][2] * q[1][3] - p[1][2] * p[1][3])  // small targets on top, so a stroke inside a big box stays clickable
+      .map(([el, b]) => {
+        const [x, y, w, h] = b, pad = Math.max(0, (40 - h) / 2);
+        return `<button class="hot t-${el.type}${b[4] ? " shp" : ""} ${el.id === cur ? "is-sel" : ""}" data-id="${el.id}" aria-label="${esc(el.name)}" style="left:${x}px;top:${y - pad}px;width:${w}px;height:${h + 2 * pad}px"></button>`;
+      }).join("");
+    if (p.kind === "overlay") {
+      viewer.el.querySelector(".masks").innerHTML = els.filter((el) => hidden(el.id)).flatMap((el) => (RES[el.id].boxes || []).map((b) => `<div class="mask" style="left:${b[0]}px;top:${b[1]}px;width:${b[2]}px;height:${b[3]}px"></div>`)).join("");
+    } else {
+      const hideT = new Set(), hideS = new Set();
+      els.filter((el) => hidden(el.id)).forEach((el) => { (RES[el.id].ti || []).forEach((k) => hideT.add(k)); (RES[el.id].si || []).forEach((k) => hideS.add(k)); });
+      viewer.el.querySelectorAll(".stx[data-ti]").forEach((n) => {
+        const h = hideT.has(+n.dataset.ti);
+        if (!h && n.classList.contains("hid")) n.classList.add("ink");
+        if (h) n.classList.remove("ink");
+        n.classList.toggle("hid", h);
+      });
+      viewer.el.querySelectorAll("[data-si]").forEach((n) => {
+        const h = hideS.has(+n.dataset.si);
+        if (!h && n.classList.contains("hid") && n.classList.contains("stx")) n.classList.add("ink");
+        n.classList.toggle("hid", h);
+      });
+    }
+    const el = cur && elById[cur], spot = viewer.el.querySelector(".spot"), cue = viewer.el.querySelector(".cue");
+    const on = el && el.page === pid && RES[cur].bbox;
+    if (cue) {
+      const ask = on && st.view === "step" && st.stage !== "done";
+      cue.style.display = ask ? "block" : "none";
+      if (ask) { const [x, y, w, h] = RES[cur].bbox; cue.className = `cue t-${el.type}`; Object.assign(cue.style, { left: x + "px", top: y + "px", width: w + "px", height: h + "px" }); }
+    }
+    if (on) {
+      const [x, y, w, h] = RES[cur].bbox;
+      Object.assign(spot.style, { display: "block", left: x - 8 + "px", top: y - 8 + "px", width: w + 16 + "px", height: h + 16 + "px" });
+      const sizes = p.kind === "overlay" ? [] : (RES[cur].ti || []).map((k) => SHELL[pid].texts[k][4]).filter(Boolean);
+      viewer.focus([x, y, w, h], true, sizes.length ? 11 / (Math.min(...sizes) * PT) : 0);
+      if (cue && cue.style.display === "block") {  // a wide box pans from its start: keep the "?" where it can be seen
+        const v = viewer.view();
+        cue.classList.toggle("cue-left", v.x + (x + w) * v.s > v.sw - 4);
+      }
+      setTimeout(drawLink, 520);  // after the zoom animation settles
+    } else {
+      spot.style.display = "none";
+      viewer.fit(true);
+    }
+  }
+
+  // ---------------------------------------------------------------- source documents (rendered once)
+  function paraHTML(p, ranges) {
+    const text = p.text;
+    if (text.includes(" :: ")) {
+      const [t, e] = text.split(" :: ");
+      return `<span class="tx"><span class="tt">${esc(t)}</span><span>${esc(e)}</span></span>`;
+    }
+    const lead = (text.match(/^([^:]{2,52}):\s/) || [])[0];
+    const leadEnd = lead ? lead.length - 1 : 0;
+    const cuts = new Set([0, text.length, leadEnd]);
+    ranges.forEach((r) => { cuts.add(r[0]); cuts.add(r[1]); });
+    const pos = [...cuts].filter((c) => c >= 0 && c <= text.length).sort((a, b) => a - b);
+    let h = "";
+    for (let k = 0; k + 1 < pos.length; k++) {
+      const a = pos[k], b = pos[k + 1];
+      if (a === b) continue;
+      let seg = esc(text.slice(a, b));
+      if (b <= leadEnd) seg = `<b>${seg}</b>`;
+      const r = ranges.find((q) => a >= q[0] && b <= q[1]);
+      if (r) seg = `<mark class="hl" data-n="${r[2]}">${a === r[0] ? `<span class="hl-n">${r[2]}</span>` : ""}${seg}</mark>`;
+      h += seg;
+    }
+    return `<span class="tx">${h}</span>`;
+  }
+  function renderOrder() {
+    const d = DOCS.order;
+    let h = "", page = 0;
+    paras.forEach((p) => {
+      if (p.page !== page) {
+        if (page) h += `</div>`;
+        page = p.page;
+        h += `<div class="ord-pg"><div class="runhead"><span>${esc(d.title)} · Platoon OPORD</span><span>Page ${page} of 9</span></div>${page === 1 ? `<div class="ord-title" data-id="@title"><b>${esc(d.title)}</b><small>${esc(d.subtitle)}</small></div>` : ""}`;
+      }
+      const head = /:$/.test(p.text) && p.text.length < 70 || p.level === 0;
+      const trow = p.text.includes(" :: ");
+      const uses = usesOf[p.id] ? usesOf[p.id].size : 0;
+      h += `<div class="op ${head ? "head" : ""} ${trow ? "trow" : ""}" data-id="${p.id}">
+        <span class="ref">${esc(p.id)}</span><div class="ob" style="padding-left:${Math.min(p.level, 5) * 16}px">${p.label && !trow ? `<span class="lb">${esc(p.label)}</span>` : ""}${paraHTML(p, [])}</div>${uses ? `<button class="uses" data-uses="${p.id}" title="Used by ${uses} shell field${uses > 1 ? "s" : ""}">${uses}</button>` : ""}</div>`;
+    });
+    $("pane-order").innerHTML = h + "</div>";
+  }
+  function renderAnnex() {
+    $("pane-annex").innerHTML = (DOCS.annex || []).map((s) => `<section class="ax" data-sec="${s.id}"><h5>${esc(s.title)}<span>Annex p. ${s.page}</span></h5>
+      <button class="img" data-lbx="${esc(s.img)}" aria-label="Enlarge ${esc(s.title)}"><img src="${esc(src(s.img))}" alt="${esc(s.title)}" loading="lazy"></button>
+      ${s.items.map((it, k) => `<div class="it" data-sec="${s.id}" data-i="${k}"><b>${esc(it.unit)}</b><span class="tx">${esc(it.text)}</span></div>`).join("")}</section>`).join("");
+  }
+  function renderShellPrint() {
+    $("pane-shell").innerHTML = (DOCS.shell || []).map((s) => `<section class="sp" data-sec="${s.id}"><h5>${esc(s.title)}</h5><ul>${s.items.map((t) => `<li>${esc(t)}</li>`).join("")}</ul></section>`).join("");
+  }
+
+  // ---------------------------------------------------------------- highlighting
+  function norm(s) {
+    let out = "", map = [], space = true;
+    for (let i = 0; i < s.length; i++) {
+      const c = s[i].toLowerCase();
+      if (/[a-z0-9]/.test(c)) { out += c; map.push(i); space = false; }
+      else if (!space) { out += " "; map.push(i); space = true; }
+    }
+    return { out, map };
+  }
+  function findRange(text, quote) {
+    const T = norm(text), Q = norm(quote).out.trim();
+    if (Q.length < 5) return null;
+    const i = T.out.indexOf(Q);
+    return i < 0 ? null : [T.map[i], T.map[i + Q.length - 1] + 1];
+  }
+  function clearHighlights() {
+    document.querySelector("#pane-order .ord-title")?.classList.remove("hlp");
+    document.querySelector("#pane-order .ord-title .hl-n")?.remove();
+    document.querySelectorAll("#pane-order .op").forEach((n) => {
+      if (n.classList.contains("hlp") || n.querySelector("mark")) {
+        n.classList.remove("hlp");
+        n.removeAttribute("data-n"); n.removeAttribute("data-sub");
+        const p = paras[paraIdx[n.dataset.id]];
+        n.querySelector(".tx").outerHTML = paraHTML(p, []);
+        n.querySelector(".hl-n")?.remove();
+      }
+      n.classList.remove("picked-bad");
+    });
+    document.querySelectorAll("#pane-annex .it").forEach((n) => {
+      if (n.classList.contains("hlp") || n.querySelector("mark")) {
+        n.classList.remove("hlp");
+        const sec = DOCS.annex.find((s) => s.id === n.dataset.sec);
+        n.querySelector(".tx").textContent = sec.items[+n.dataset.i].text;
+        n.querySelector(".hl-n")?.remove();
+      }
+    });
+    document.querySelectorAll(".ax.hlc, .sp.hlc").forEach((n) => n.classList.remove("hlc"));
+    mapMarks = [];
+    paintMap();
+  }
+  // mark every source line the visible evidence points to; returns counts per source family
+  function applyHighlights(lines) {
+    clearHighlights();
+    const counts = { order: 0, annex: 0, map: 0, shell: 0 };
+    const marks = [];
+    const perPara = {}, perItem = {}, wholePara = {};
+    lines.forEach((l) => l.cites.forEach((c) => {
+      if (c.fam === "order" && c.ids.length) {
+        counts.order++;
+        const quotes = c.quote ? c.quote.split("…").map((q) => q.trim()).filter((q) => q.length >= 6) : [];
+        let hit = false;
+        c.ids.forEach((id) => paras.forEach((p) => {
+          if (!under(p.id, id)) return;
+          quotes.forEach((q) => { const r = findRange(p.text, q); if (r) { (perPara[p.id] = perPara[p.id] || []).push([r[0], r[1], l.n]); hit = true; } });
+        }));
+        if (!hit) c.ids.forEach((id) => {
+          if (id === "@title") { wholePara[id] = wholePara[id] || l.n; return; }
+          paras.forEach((p) => { if (under(p.id, id)) wholePara[p.id] = wholePara[p.id] || (p.id === id || paraIdx[id] === undefined ? l.n : -l.n); });
+        });
+      } else if (c.fam === "annex" && c.secs && c.secs.length) {
+        counts.annex++;
+        let hit = false;
+        if (c.quote) c.secs.forEach((sid) => DOCS.annex.find((s) => s.id === sid).items.forEach((it, k) => {
+          const r = findRange(it.text, c.quote);
+          if (r) { (perItem[sid + ":" + k] = perItem[sid + ":" + k] || []).push([r[0], r[1], l.n]); hit = true; }
+        }));
+        if (!hit) c.secs.forEach((sid) => document.querySelector(`#pane-annex .ax[data-sec="${sid}"]`)?.classList.add("hlc"));
+      } else if (c.fam === "shell" && c.secs && c.secs.length) {
+        counts.shell++;
+        c.secs.forEach((sid) => document.querySelector(`#pane-shell .sp[data-sec="${sid}"]`)?.classList.add("hlc"));
+      } else if (c.fam === "map" && c.pts.length) {
+        counts.map++;
+        c.pts.forEach((pt) => { if (!marks.some((m) => m.name === pt.name)) marks.push({ n: l.n, name: pt.name, en: pt.en }); });
+      }
+    }));
+    mapMarks = marks;
+    paintMap();
+    Object.entries(perPara).forEach(([id, rs]) => {
+      const n = document.querySelector(`#pane-order .op[data-id="${CSS.escape(id)}"]`);
+      if (n) n.querySelector(".tx").outerHTML = paraHTML(paras[paraIdx[id]], rs.sort((a, b) => a[0] - b[0]).filter((r, k, a) => !k || r[0] >= a[k - 1][1]));
+    });
+    Object.entries(wholePara).forEach(([id, num]) => {
+      const n = document.querySelector(`#pane-order [data-id="${CSS.escape(id)}"]`);
+      if (!n || perPara[id]) return;
+      n.classList.add("hlp");
+      if (num > 0) { n.dataset.n = num; (n.querySelector(".ob") || n).insertAdjacentHTML("afterbegin", `<span class="hl-n">${num}</span>`); }
+      else n.dataset.sub = "1";
+    });
+    Object.entries(perItem).forEach(([key, rs]) => {
+      const [sid, k] = key.split(":");
+      const n = document.querySelector(`#pane-annex .it[data-sec="${sid}"][data-i="${k}"]`);
+      const text = DOCS.annex.find((s) => s.id === sid).items[+k].text;
+      const r = rs[0];
+      n.classList.add("hlp");
+      n.querySelector(".tx").innerHTML = `${esc(text.slice(0, r[0]))}<mark class="hl" data-n="${r[2]}"><span class="hl-n">${r[2]}</span>${esc(text.slice(r[0], r[1]))}</mark>${esc(text.slice(r[1]))}`;
+    });
+    return counts;
+  }
+  // the issued map, with a numbered marker wherever the evidence reads it
+  let mapViewer = null, mapMarks = [];
+  const mapXY = (en) => [(en[0] - MAPD.E0) * MAPD.kpx, (MAPD.N1 - en[1]) * MAPD.kpx];
+  function ensureMap() {
+    if (mapViewer || !MAPD.file || !$("pane-map").classList.contains("on")) return;
+    const stage = $("mapStage");
+    if (!stage.clientWidth || !stage.clientHeight) return;
+    mapViewer = PanZoom(stage, { w: MAPD.w, h: MAPD.h, maxZoom: 6, html: `<img src="${esc(src(MAPD.file))}" alt="1:25,000 map"><div class="mks"></div>` });
+    paintMap();
+  }
+  function paintMap() {
+    if (!mapViewer) return;
+    mapViewer.el.querySelector(".mks").innerHTML = mapMarks.map((m, i) => {
+      const [x, y] = mapXY(m.en);
+      return `<div class="mk${i ? "" : " cur"}" data-n="${m.n}" style="left:${x.toFixed(1)}px;top:${y.toFixed(1)}px"><b>${m.n}</b><span>${esc(m.name)}</span></div>`;
+    }).join("");
+  }
+
+  // ---------------------------------------------------------------- source panel
+  const FAMS = [["order", "PLT OPORD"], ["annex", "Annexes"], ["map", "Map"], ["shell", "Shell form"]];
+  let counts = { order: 0, annex: 0, map: 0, shell: 0 };
+  let srcList = [], srcIdx = 0;
+  function renderTabs() {
+    $("vtabs").innerHTML = FAMS.map(([k, label]) => `<button class="vt" role="tab" data-tab="${k}" aria-selected="${st.tab === k}">${label}${counts[k] ? `<span class="ct">${counts[k]}</span>` : ""}</button>`).join("") +
+      `<span class="hlnav" id="hlnav"></span>`;
+    FAMS.forEach(([k]) => $("pane-" + k).classList.toggle("on", st.tab === k));
+    document.querySelector(".doc").classList.toggle("learn", st.mode === "learn");
+    if (st.tab === "map") { $("doc").scrollTop = 0; ensureMap(); }
+    updateHlNav();
+  }
+  function marksInTab() {
+    const pane = $("pane-" + st.tab);
+    return [...pane.querySelectorAll("mark.hl, .op.hlp:not([data-sub]), .ord-title.hlp, .ax.hlc, .ax .it.hlp, .sp.hlc, .mk")].filter((n, k, arr) => !(n.tagName === "MARK" && arr[k - 1] && arr[k - 1].tagName === "MARK" && arr[k - 1].dataset.n === n.dataset.n && arr[k - 1].parentNode === n.parentNode));
+  }
+  function updateHlNav() {
+    const m = marksInTab(), nav = $("hlnav");
+    if (!nav) return;
+    nav.innerHTML = m.length > 1 ? `<button data-hl="-1" aria-label="Previous highlight">‹</button><span>${Math.min(st.hlIdx + 1, m.length)}/${m.length}</span><button data-hl="1" aria-label="Next highlight">›</button>` : "";
+    syncSrcStrip();
+  }
+  function focusMark(k, smooth = true, all = false) {
+    const m = marksInTab();
+    if (!m.length) { drawLink(); return; }
+    st.hlIdx = (k + m.length) % m.length;
+    const n = m[st.hlIdx], doc = $("doc");
+    if (st.tab === "map") {  // pan the map to the marker instead of scrolling
+      if (mapViewer) {
+        const pts = (Array.isArray(all) ? all : all ? m : [n]).map((q) => [parseFloat(q.style.left), parseFloat(q.style.top)]);
+        const xs = pts.map((q) => q[0]), ys = pts.map((q) => q[1]);
+        const x0 = Math.min(...xs) - 170, y0 = Math.min(...ys) - 120, x1 = Math.max(...xs) + 170, y1 = Math.max(...ys) + 120;
+        mapViewer.focus([x0, y0, x1 - x0, y1 - y0], smooth);
+      }
+      m.forEach((q) => q.classList.toggle("cur", q === n));
+      n.classList.remove("hl-on"); void n.offsetWidth; n.classList.add("hl-on");
+      updateHlNav();
+      setTimeout(drawLink, smooth ? 480 : 40);
+      return;
+    }
+    const top = n.getBoundingClientRect().top - doc.getBoundingClientRect().top + doc.scrollTop - doc.clientHeight * 0.3;
+    doc.scrollTo({ top: Math.max(0, top), behavior: smooth ? "smooth" : "auto" });
+    n.classList.remove("hl-on"); void n.offsetWidth; n.classList.add("hl-on");
+    updateHlNav();
+    setTimeout(drawLink, smooth ? 420 : 30);
+  }
+  function setTab(k, focus = true) {
+    st.tab = k;
+    renderTabs();
+    if (focus) focusMark(0, false, true); else drawLink();
+  }
+  function focusEvidence(n) {
+    const el = elById[curId()];
+    if (!el) return;
+    const line = evidence(el).lines.find((l) => l.n === n);
+    const c = line && line.cites.find((x) => (x.ids ? x.ids.length : x.pts ? x.pts.length : x.secs ? x.secs.length : false));
+    document.querySelectorAll("#srcTop .evid li").forEach((li) => li.classList.toggle("on", +li.dataset.n === n));
+    if (!c) return;
+    setTab(c.fam, false);
+    const m = marksInTab();
+    // a map point two steps share carries the first step's number: find this step's marker by name instead
+    const k = c.fam === "map" ? m.findIndex((x) => c.pts.some((p) => x.textContent.includes(p.name)))
+      : m.findIndex((x) => +(x.dataset.n || (x.querySelector("[data-n]") || {}).dataset?.n) === n);
+    focusMark(k >= 0 ? k : 0);
+  }
+  // every distinct place the visible evidence points to (a paragraph, an annex box, map points, a shell box), in order
+  function sourcesOf(lines) {
+    const out = [];
+    lines.forEach((l) => l.cites.forEach((c) => {
+      if (!(c.ids ? c.ids.length : c.pts ? c.pts.length : c.secs ? c.secs.length : false)) return;
+      const key = c.fam + "|" + c.label;
+      if (!out.some((s) => s.key === key)) out.push({ key, fam: c.fam, c });
+    }));
+    return out;
+  }
+  function srcLabel(s) {
+    const tag = s.c.label.replace(/^\S+\s*/, "");
+    if (s.fam === "order") return /header|title/i.test(tag) ? "OPORD title" : "OPORD " + tag.replace(/¶\s*/g, "");  // same names as the chips
+    if (s.fam === "annex") return "Annex " + tag;
+    if (s.fam === "shell") return "Shell " + tag.replace(/^PG(\d+)/, "PG $1");
+    return "Map · " + s.c.pts.map((p) => p.name.replace(/ · .*/, "")).join(", ");
+  }
+  function isMarkOf(s, x) {
+    if (s.fam === "order") {
+      const op = x.closest(".op, .ord-title");
+      return !!op && s.c.ids.some((id) => (id === "@title" ? op.classList.contains("ord-title") : op.dataset.id === id || (op.dataset.id || "").startsWith(id + ".")));
+    }
+    if (s.fam === "annex" || s.fam === "shell") { const b = x.closest("[data-sec]"); return !!b && s.c.secs.includes(b.dataset.sec); }
+    return s.c.pts.some((p) => x.textContent.includes(p.name));
+  }
+  function renderSrcStrip(lines) {
+    srcList = sourcesOf(lines); srcIdx = 0;
+    const box = $("srcstrip"), multi = srcList.length > 1;
+    box.hidden = !multi;  // one source needs no strip: its tab badge and highlight already show it
+    box.className = "srcstrip" + (multi ? " multi" : "");
+    box.innerHTML = srcList.length ? `<span class="lab">${multi ? `${srcList.length} sources` : "Source"}</span>` +
+      srcList.map((s, k) => `<button class="s" data-src="${k}" title="Show this source">${esc(srcLabel(s))}</button>`).join("") +
+      (multi ? `<button class="nx" data-src="next">Next source ›</button>` : "") : "";
+    if (multi) { void box.offsetWidth; box.classList.add("pulse"); }
+  }
+  function syncSrcStrip() {
+    const m = marksInTab()[st.hlIdx], cur = srcList[srcIdx];
+    // two sources can share a mark (e.g. K2 in two map steps): keep the one the reader is on
+    const k = !m ? -1 : cur && cur.fam === st.tab && isMarkOf(cur, m) ? srcIdx : srcList.findIndex((s) => s.fam === st.tab && isMarkOf(s, m));
+    if (k >= 0) srcIdx = k;
+    document.querySelectorAll("#srcstrip .s").forEach((b) => b.classList.toggle("on", +b.dataset.src === k));
+    const on = document.querySelector("#srcstrip .s.on"), box = $("srcstrip");   // keep the current chip in view, clear of Next
+    if (on) {
+      const l = on.offsetLeft - 12, r = on.offsetLeft + on.offsetWidth + 150;
+      if (l < box.scrollLeft) box.scrollLeft = l;
+      else if (r > box.scrollLeft + box.clientWidth) box.scrollLeft = r - box.clientWidth;
+    }
+  }
+  function goSource(k, smooth = true) {
+    if (!srcList.length) return;
+    const j = (k + srcList.length) % srcList.length, s = srcList[j];
+    setTab(s.fam, false);
+    srcIdx = j;
+    const m = marksInTab(), i = m.findIndex((x) => isMarkOf(s, x)), mine = m.filter((x) => isMarkOf(s, x));
+    focusMark(Math.max(0, i), smooth, s.fam === "map" ? (mine.length ? mine : true) : false);
+  }
+  function chipHTML(c) {  // plain names on the chips ("OPORD 1.g.iv", "Annex A-PLT"); data-chip keeps the tag
+    if (c.fam === "std") return `<span class="std-tag" title="A standard you bring with you, not something in the packet">Standard</span>`;
+    if (c.fam === "map") {
+      const lab = c.pts.length ? `Map · ${c.pts[0].name.replace(/ · .*/, "")}${c.pts.length > 1 ? ` +${c.pts.length - 1}` : ""}` : "Map";
+      return `<button class="chip map" data-chip="${esc(c.label)}" title="Read off the 1:25,000 map${c.pts.length ? ": " + esc(c.pts.map((x) => x.name).join(", ")) : ""}">${esc(lab)}</button>`;
+    }
+    const lab = c.fam === "order" ? (/header|title/i.test(c.label) ? "OPORD title" : c.label.replace(/^BS\s*¶?\s*/, "OPORD ").replace(/¶\s*/g, ""))
+      : c.fam === "annex" ? c.label.replace(/^ANX\s*/, "Annex ") : c.label.replace(/^SHELL\s*/, "Shell ").replace(/PG(\d)/, "PG $1");
+    return `<button class="chip ${c.fam}" data-chip="${esc(c.label)}">${esc(lab)}</button>`;
+  }
+  function richText(t) {
+    let h = "", last = 0, m;
+    TAG_RE.lastIndex = 0;
+    while ((m = TAG_RE.exec(t))) { h += esc(t.slice(last, m.index)) + chipHTML(parseTag(m[1])); last = TAG_RE.lastIndex; }
+    return h + esc(t.slice(last));
+  }
+  const citeChips = (s) => (s ? s.split(" · ").map((x) => chipHTML(parseTag(x.trim()))).join(" ") : "");
+
+  function askText(el) {
+    if (el.ask) return el.ask;
+    const ev = evidence(el);
+    const hasOrder = ev.lines.some((l) => l.cites.some((c) => c.fam === "order" && c.ids.length));
+    const hasAnnex = ev.lines.some((l) => l.cites.some((c) => c.fam === "annex"));
+    if (el.type === "copy") return hasOrder ? `Where in the PLT OPORD is “${el.name}”? Tap the paragraph.` : hasAnnex ? `Which annex box gives you “${el.name}”? Tap it.` : `Where does “${el.name}” come from?`;
+    if (el.type === "std") return `What does the blank shell form tell you about “${el.name}”?`;
+    return `Work out “${el.name}”. Which facts from the order get you there?`;
+  }
+  const locTargets = (el) => {
+    const ev = evidence(el);
+    const ord = ev.lines.flatMap((l) => l.cites.filter((c) => c.fam === "order").flatMap((c) => c.ids));
+    const ax = ev.lines.flatMap((l) => l.cites.filter((c) => c.fam === "annex").flatMap((c) => c.secs || []));
+    return { ord, ax, fam: ord.length ? "order" : ax.length ? "annex" : null };
+  };
+  function clozeWords(el) {
+    const text = (RES[el.id].items || []).map((it) => stripBold(it.text)).join("\n");
+    const words = text.split(/(\s+)/);
+    return words.filter((w) => w.trim()).length <= 45 ? text : null;
+  }
+
+  function renderPanel() {
+    const id = curId(), el = id && elById[id];
+    if (st.view === "home" || !el) { renderPanelIdle(); return; }
+    const p = pageById[el.page], ev = evidence(el);
+    const learn = st.view === "step";
+    const done = !learn || st.stage === "done";
+    let h = "", foot = "";
+    if (learn) {
+      const L = LESSONS[st.lesson], total = st.queue.length;
+      h += `<div class="lbar"><span>${st.review ? "Review" : `Lesson ${st.lesson + 1} · ${esc(L.t)}`}</span><span class="mono">${st.qi + 1} / ${total}</span><div class="pbar"><i class="c" style="width:${(st.qi + (done ? 1 : 0)) / total * 100}%"></i></div></div>`;
+    }
+    h += `<div class="fhead t-${el.type}"><div class="kicker">${esc(pageNo(p))} · ${esc(pageName(p))}<span class="tchip">${TYPES[el.type].label}</span></div><h2 id="fname">${esc(el.name)}</h2></div>`;
+    // which evidence lines are visible
+    let lines = ev.lines;
+    if (learn && !done) {
+      if (el.type === "derive" && el.chain) lines = ev.lines.slice(0, st.shown);
+      else lines = [];
+    }
+    if (learn && !done) {
+      h += `<p class="ask">${esc(askText(el))}</p>`;
+      const loc = locTargets(el);
+      if (el.type === "copy" && loc.fam) {
+        h += `<div class="ctrl"><span style="color:var(--ink-2);font-size:14px">Tap the line in the ${loc.fam === "order" ? "PLT OPORD" : "annex"} below.</span><button class="btn sm ghost" data-act="reveal">Show me <kbd>Space</kbd></button></div>`;
+      } else if (el.type === "derive" && el.chain) {
+        h += lines.length ? `<ol class="evid">${lines.map(evLi).join("")}</ol>` : "";
+        const steps = el.chain.length;
+        h += `<div class="ctrl"><button class="btn sm" data-act="step">${st.shown < steps ? `Show step ${st.shown + 1} of ${steps}` : "Show the answer"} <kbd>Space</kbd></button></div>`;
+      } else if (el.type === "std" && clozeWords(el)) {
+        const words = clozeWords(el).split(/(\s+)/);
+        let k = 0;
+        h += `<div class="cloze">${words.map((w) => {
+          if (/\n/.test(w)) return `<span class="br"></span>`;
+          if (!w.trim()) return "";
+          const i = k++;
+          if (st.cloze.has(i) || !/[A-Za-z0-9]/.test(w)) return `<span>${esc(w)}</span>`;
+          return `<button data-cz="${i}" aria-label="Reveal word">${esc(w.replace(/^([^A-Za-z0-9]*[A-Za-z0-9])([\s\S]*)$/, (m, a, b) => a + b.replace(/[A-Za-z0-9]/g, "_")))}</button>`;
+        }).join(" ")}</div><div class="ctrl"><button class="btn sm" data-act="reveal">Reveal all <kbd>Space</kbd></button></div>`;
+      } else {
+        h += `<div class="ctrl"><button class="btn sm" data-act="reveal">Reveal <kbd>Space</kbd></button></div>`;
+      }
+      if (st.picked) h += `<div class="locfb ${st.picked}">${st.picked === "ok" ? "✓ That's the line." : st.picked === "close" ? "Close — right section, now the exact line:" : "Not that one — here's where it is:"}</div>`;
+    } else {
+      if (st.picked) h += `<div class="locfb ${st.picked}">${st.picked === "ok" ? "✓ You found the right line." : st.picked === "close" ? "Close — the exact line is highlighted." : "Not that one — the right line is highlighted."}</div>`;
+      if (!el.graphic && !el.noAnswer) h += `<div class="sec-l">On the shell</div><div class="ansbox">${valueHTML(el)}</div>`;
+      h += `<div class="sec-l">What goes here</div><p class="rule">${richText(el.rule || "")} ${citeChips(el.cite)}</p>`;
+      if (ev.lines.length) {
+        h += `<div class="sec-l">${el.type === "derive" ? "How it's worked out" : el.type === "std" ? "The standard" : "Where it comes from"}</div><ol class="evid">${ev.lines.map(evLi).join("")}</ol>`;
+      }
+      if (el.note) h += `<div class="note">${richText(el.note)}</div>`;
+      if (AUTHOR && RES[el.id].stale) h += `<div class="flag">Author: the filled answer changed after this explanation was written. Update it, then run build.py --accept.</div>`;
+      if (AUTHOR && RES[el.id].missing) h += `<div class="flag">Author: nothing filled for this field in the current version.</div>`;
+      if (learn) {
+        const g = st.grades[el.id];
+        foot += `<div class="grade" role="group" aria-label="How did you do?">${[["got", "Got it", 1], ["shaky", "Shaky", 2], ["missed", "Missed", 3]].map(([k, l, n]) => `<button data-g="${k}" class="${g === k ? "on" : ""}">${l} <kbd>${n}</kbd></button>`).join("")}</div>`;
+      }
+    }
+    if (learn) {
+      const next = st.queue[st.qi + 1] && elById[st.queue[st.qi + 1]];
+      foot += `<div class="nextpeek"><button class="btn sm ghost" data-act="back" ${st.qi === 0 ? "disabled" : ""}>◀ Back</button><span>${next ? `Next: ${esc(next.name)}` : "Last field of this lesson"}</span><button class="btn sm ghost" data-act="skip">${done ? "Next ▶" : "Skip"}</button></div>`;
+    } else {
+      const sib = pageFields(el.page), k = sib.indexOf(el);
+      foot += `<div class="nextpeek"><button class="btn sm ghost" data-act="prev" ${k <= 0 ? "disabled" : ""}>◀ Prev field</button><span class="mono">${k + 1} / ${sib.length}</span><button class="btn sm ghost" data-act="nextf" ${k >= sib.length - 1 ? "disabled" : ""}>Next field ▶</button></div>`;
+    }
+    $("srcTop").innerHTML = h + `<div class="src-foot">${foot}</div>`;
+    $("srcTop").className = "src-top t-" + el.type;
+    $("srcTop").scrollTop = 0;
+    $("live").textContent = el.name;
+    // source viewer
+    const showLines = learn && !done ? (el.type === "derive" ? lines : []) : ev.lines;
+    counts = applyHighlights(showLines);
+    renderSrcStrip(showLines);
+    counts = { order: 0, annex: 0, map: 0, shell: 0 };
+    srcList.forEach((s) => counts[s.fam]++);   // tab badges count places, not citations
+    document.querySelector(".doc").classList.toggle("locating", learn && !done && el.type === "copy" && !!locTargets(el).fam);
+    if (learn && !done && el.type === "copy" && locTargets(el).fam) {
+      st.tab = locTargets(el).fam;
+      renderTabs();
+      if (st.picked) {
+        // keep the picked paragraph visible
+      } else $("doc").scrollTo({ top: 0 });
+      drawLink();
+    } else {
+      const first = showLines.flatMap((l) => l.cites).find((c) => (c.ids ? c.ids.length : c.pts ? c.pts.length : c.secs ? c.secs.length : false));
+      st.tab = first ? first.fam : (counts.order ? "order" : counts.annex ? "annex" : counts.map ? "map" : counts.shell ? "shell" : st.tab);
+      renderTabs();
+      if (srcList.length) goSource(0, false); else focusMark(0, false, true);
+    }
+    if (isMobile()) $("src").classList.add("on");
+  }
+  const evLi = (l) => `<li class="${l.res ? "res" : ""}" data-n="${l.n}"><span class="n">${l.res ? "✓" : l.n}</span><span>${richText(l.t.replace(/^→\s*/, ""))}</span></li>`;
+  function renderPanelIdle() {
+    renderSrcStrip([]);
+    $("srcTop").className = "src-top";
+    $("srcTop").innerHTML = `<div class="kicker">Your packet</div><h2 style="margin:2px 0 6px;font:600 22px var(--f-ui)">Every answer comes from your packet</h2>
+      <p style="margin:0;color:var(--ink-2)">Tap a field on the shell and its source lights up here: the line of the PLT OPORD, the annex box, or the spot on the map. Nothing else — that is all an SL is handed.</p><div style="height:12px"></div>`;
+    counts = applyHighlights([]);
+    st.tab = "order";
+    renderTabs();
+    hideLink();
+  }
+
+  // ---------------------------------------------------------------- connector line (field ↔ source)
+  const linkPath = $("linkPath"), linkA = $("linkA"), linkB = $("linkB");
+  function hideLink() { $("link").style.display = "none"; }
+  function drawLink() {
+    if (isMobile()) { hideLink(); return; }
+    const id = curId();
+    let fld = id && document.querySelector(`#main .fchip[data-id="${CSS.escape(id)}"]`);
+    const spot = document.querySelector("#pz .spot");
+    if (spot && spot.style.display !== "none") { const r = spot.getBoundingClientRect(), mr = $("main").getBoundingClientRect(); if (r.bottom > mr.top && r.top < mr.bottom) fld = spot; }
+    const m = marksInTab()[st.hlIdx];
+    if (!fld || !m) { hideLink(); return; }
+    const a = fld.getBoundingClientRect(), b = m.getBoundingClientRect();
+    const ma = $("main").getBoundingClientRect(), da = $("doc").getBoundingClientRect();
+    const ay = Math.min(Math.max(a.top + Math.min(a.height / 2, 40), ma.top + 8), ma.bottom - 8), by = b.top + Math.min(b.height / 2, 14);
+    if (a.bottom < ma.top || a.top > ma.bottom || by < da.top || by > da.bottom) { hideLink(); return; }
+    const ax = Math.min(a.right, ma.right - 4), bx = Math.max(b.left - 6, da.left + 4);
+    const dx = Math.max(40, (bx - ax) / 2);
+    const col = getComputedStyle(document.querySelector(`#main .fchip[data-id="${CSS.escape(id)}"]`) || fld).getPropertyValue("--c").trim() || "#888";
+    linkPath.setAttribute("d", `M${ax},${ay} C${ax + dx},${ay} ${bx - dx},${by} ${bx},${by}`);
+    linkPath.setAttribute("stroke", col);
+    linkA.setAttribute("cx", ax); linkA.setAttribute("cy", ay); linkA.setAttribute("fill", col);
+    linkB.setAttribute("cx", bx); linkB.setAttribute("cy", by); linkB.setAttribute("fill", col);
+    $("link").style.display = "block";
+  }
+  let raf = 0;
+  const scheduleLink = () => { cancelAnimationFrame(raf); raf = requestAnimationFrame(drawLink); };
+
+  // ---------------------------------------------------------------- views
+  function setMode(m) {
+    st.mode = m;
+    document.querySelectorAll(".seg button").forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.mode === m)));
+    if (m === "learn") { st.sel = null; showHome(); }
+    else { st.view = "page"; showPage(st.page, st.sel); }
+    save();
+  }
+  function showHome() {
+    st.view = "home";
+    const reviewN = Object.entries(st.grades).filter(([id, g]) => g !== "got" && elById[id]).length;
+    const cont = LESSONS.find((L) => (st.pos[L.i] || 0) > 0 && (st.pos[L.i] || 0) < L.fields.length);
+    const next = cont || LESSONS.find((L) => L.fields.some((id) => !st.grades[id])) || LESSONS[0];
+    const tally = (L) => {
+      const g = L.fields.map((id) => st.grades[id]);
+      const n = L.fields.length, pct = (k) => g.filter((x) => x === k).length / n * 100;
+      return `<div class="pbar"><i class="g" style="width:${pct("got")}%"></i><i class="s" style="width:${pct("shaky")}%"></i><i class="m" style="width:${pct("missed")}%"></i></div>`;
+    };
+    $("main").dataset.page = "";
+    $("main").innerHTML = `<div class="hero"><div class="kicker">Operation Buffalo Snow · 3rd Squad clears OBJ WHITE</div>
+      <h1>Learn to fill the OPORD shell — and know <em>where every answer comes from</em>.</h1>
+      <p class="lede">${LESSONS.length} short lessons walk your shell page by page, in briefing order. For each box you work out the answer yourself, then see it written on the shell and the exact line of the PLT OPORD, the annex or the spot on the map it comes from. Only what an SL is handed — no class notes.</p>
+      <div class="types3">${Object.entries(TYPES).map(([k, T]) => `<div class="t-${k}"><b>${T.label}</b>${T.short}</div>`).join("")}</div>
+      <div class="cta"><button class="btn" data-lesson="${next.i}">${cont ? `Continue lesson ${next.i + 1}` : `Start lesson ${next.i + 1}`} · ${esc(next.t)}</button>
+      ${reviewN ? `<button class="btn ghost" data-act="reviewall">Review ${reviewN} shaky / missed</button>` : ""}
+      <button class="btn ghost" data-act="explore">Explore the shell</button></div>
+      <div class="row-h">Your shell</div>
+      <div class="pvs">${["p1", "p8", "p14"].filter((id) => SHELL[id] && pageById[id]).map((id) => `<button class="pv" data-pv="${id}"><div class="pv-pg" data-h="${SHELL[id].h}"><div class="pz-c paper" style="width:2000px;height:${SHELL[id].h}px">${sheetHTML(SHELL[id], id)}</div></div><b>${esc(pageNo(pageById[id]))} · ${esc(pageName(pageById[id]))}</b>Filled, exactly as on paper</button>`).join("")}</div>
+      <div class="row-h">Lessons</div>
+      <div class="lessons">${LESSONS.map((L, i) => (i && LESSONS[i - 1].topic === L.topic ? "" : `<div class="lgroup">${esc(L.topic)}</div>`) + `<button class="lesson" data-lesson="${L.i}"><span class="ln">LESSON ${L.i + 1} · ${L.fields.length} FIELDS · ~${Math.max(3, Math.round(L.fields.length * 0.6))} MIN</span><span class="lt">${esc(L.t)}</span><span class="lm">${esc(lessonWhere(L))}</span>${tally(L)}</button>`).join("")}</div></div>`;
+    $("main").scrollTop = 0;
+    sizePreviews();
+    renderRail();
+    renderPanel();
+    if (isMobile()) $("src").classList.remove("on");
+    hideLink();
+  }
+  // where a lesson sits on the shell: its pages (and part), then the page sections it covers
+  function lessonWhere(L) {
+    const pages = [...new Set(L.units.map((u) => pageNo(pageById[u.pid])))];
+    const heads = [...new Set(L.units.flatMap((u) => u.secs.map((s) => s.h)).filter(Boolean))];
+    return pages.join(" · ") + (heads.length && heads.length <= 4 ? " — " + heads.join(" · ") : "");
+  }
+  function sizePreviews() {
+    document.querySelectorAll(".pv-pg").forEach((n) => {
+      const k = n.clientWidth / 2000, c = n.firstElementChild;
+      n.style.height = (+n.dataset.h * k).toFixed(1) + "px";
+      c.style.transform = `scale(${k})`;
+      fitTexts(c);
+    });
+  }
+  function startLesson(i, review) {
+    st.lesson = i; st.review = !!review;
+    st.queue = review ? review : LESSONS[i].fields.slice();
+    st.qi = review ? 0 : Math.min(st.pos[i] || 0, st.queue.length - 1);
+    if (!review && (st.pos[i] || 0) >= st.queue.length) st.qi = 0;
+    st.view = "lessonStart";
+    $("main").dataset.page = "";
+    const L = LESSONS[i];
+    $("main").innerHTML = `<div class="card"><div class="ln">${review ? "REVIEW" : `LESSON ${i + 1} OF ${LESSONS.length}`}</div><h2>${review ? "Review what was shaky or missed" : esc(L.t)}</h2>
+      <p style="color:var(--ink-2)">${st.queue.length} fields · about ${Math.max(3, Math.round(st.queue.length * 0.6))} minutes. For each one: answer it in your head (or out loud), check the source, then grade yourself honestly.</p>
+      ${review ? "" : `<ul>${L.units.map((u) => `<li>${esc(pageById[u.pid].title)}${u.part ? ` · part ${u.part}` : ""}${u.secs.some((s) => s.h) ? ` — ${esc(u.secs.map((s) => s.h).filter(Boolean).join(" · "))}` : ""}</li>`).join("")}</ul>`}
+      <div class="cta"><button class="btn" data-act="begin">${st.qi ? `Resume at field ${st.qi + 1}` : "Start"} <kbd style="border-color:var(--paper)">Enter</kbd></button><button class="btn ghost" data-act="home">Back to lessons</button></div></div>`;
+    renderPanelIdle();
+    renderRail();
+    if (isMobile()) $("src").classList.remove("on");
+  }
+  function showStep(smooth) {
+    st.view = "step";
+    const id = st.queue[st.qi], el = elById[id];
+    if ($("main").dataset.page !== el.page) renderPage(el.page);
+    else refreshFields();
+    renderRail();
+    renderPanel();
+    scrollToField(id, smooth);
+    if (!st.review) { st.pos[st.lesson] = st.qi; save(); }
+  }
+  // keep the page in view: on a phone the page sits above the source sheet, on a laptop it already fits
+  function scrollToField(id, smooth) {
+    const n = (RES[id].boxes || []).length ? $("pz") : document.querySelector(`#main .fchip[data-id="${CSS.escape(id)}"]`);
+    if (!n) return;
+    const main = $("main"), r = n.getBoundingClientRect(), mr = main.getBoundingClientRect();
+    if (isMobile()) main.scrollTo({ top: Math.max(0, r.top - mr.top + main.scrollTop - 6), behavior: smooth ? "smooth" : "auto" });
+    else if (r.top < mr.top || r.bottom > mr.bottom) main.scrollTo({ top: Math.max(0, r.top - mr.top + main.scrollTop - 12), behavior: smooth ? "smooth" : "auto" });
+    setTimeout(drawLink, smooth ? 450 : 30);
+  }
+  function reveal() {
+    if (st.view !== "step" || st.stage === "done") return;
+    st.stage = "done";
+    refreshFields();
+    renderPanel();
+    scrollToField(st.queue[st.qi], true);
+  }
+  function stepChain() {
+    const el = elById[st.queue[st.qi]];
+    if (st.shown < el.chain.length) { st.shown++; renderPanel(); const last = evidence(el).lines[st.shown - 1]; if (last && last.cites.some((c) => c.fam !== "map")) focusEvidence(last.n); }
+    else reveal();
+  }
+  function go(delta) {
+    const n = st.qi + delta;
+    if (n < 0) return;
+    if (n >= st.queue.length) { endLesson(); return; }
+    st.qi = n; st.stage = "ask"; st.shown = 0; st.cloze = new Set(); st.picked = null; st.hlIdx = 0;
+    showStep(true);
+  }
+  function grade(g) {
+    const id = st.queue[st.qi];
+    st.grades[id] = g; save();
+    go(1);
+  }
+  function endLesson() {
+    st.view = "lessonEnd";
+    $("main").dataset.page = "";
+    if (!st.review) { st.pos[st.lesson] = st.queue.length; save(); }
+    const ids = st.queue, c = (k) => ids.filter((id) => st.grades[id] === k).length;
+    const weak = ids.filter((id) => st.grades[id] && st.grades[id] !== "got");
+    const nextL = LESSONS[st.lesson + 1];
+    $("main").innerHTML = `<div class="card"><div class="ln">${st.review ? "REVIEW DONE" : `LESSON ${st.lesson + 1} DONE`}</div><h2>${st.review ? "Review complete" : esc(LESSONS[st.lesson].t)}</h2>
+      <div class="tally"><div class="g"><b>${c("got")}</b>Got it</div><div class="s"><b>${c("shaky")}</b>Shaky</div><div class="m"><b>${c("missed")}</b>Missed</div></div>
+      <div class="cta">${weak.length ? `<button class="btn" data-act="reviewthis">Review the ${weak.length} shaky / missed now</button>` : ""}
+      ${!st.review && nextL ? `<button class="btn ${weak.length ? "ghost" : ""}" data-lesson="${nextL.i}">Next: ${esc(nextL.t)}</button>` : ""}
+      <button class="btn ghost" data-act="home">All lessons</button></div></div>`;
+    st.lastWeak = weak;
+    $("main").scrollTop = 0;
+    renderPanelIdle();
+    renderRail();
+    if (isMobile()) $("src").classList.remove("on");
+  }
+  function showPage(pid, selId) {
+    st.view = "page"; st.page = pid; st.sel = selId && elById[selId] && elById[selId].page === pid ? selId : null;
+    renderPage(pid);
+    renderRail();
+    renderPanel();
+    $("main").scrollTop = 0;
+    if (st.sel) scrollToField(st.sel, false);
+    if (!st.sel) { hideLink(); if (isMobile()) $("src").classList.remove("on"); }
+    save();
+  }
+  function select(id) {
+    const el = elById[id];
+    if (!el) return;
+    if (st.view === "step") return;
+    if (st.mode !== "explore") { st.mode = "explore"; document.querySelectorAll(".seg button").forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.mode === "explore"))); }
+    if (st.view !== "page" || $("main").dataset.page !== el.page) { showPage(el.page, id); }
+    else { st.sel = id; refreshFields(); renderPanel(); scrollToField(id, true); }
+    try { history.replaceState(null, "", "#f=" + id + (AUTHOR ? "&author" : "")); } catch (e) { /* file:// may refuse */ }
+  }
+  function pickLocation(kind, key) {
+    if (st.view !== "step" || st.stage === "done") return;
+    const el = elById[st.queue[st.qi]];
+    if (el.type !== "copy") return;
+    const t = locTargets(el);
+    if (kind === "order") {
+      const ok = t.ord.some((id) => under(key, id));
+      const close = !ok && t.ord.some((id) => under(id, key) || key.split(".").slice(0, -1).join(".") === id.split(".").slice(0, -1).join("."));
+      st.picked = ok ? "ok" : close ? "close" : "miss";
+      if (!ok) document.querySelector(`#pane-order .op[data-id="${CSS.escape(key)}"]`)?.classList.add("picked-bad");
+    } else {
+      st.picked = t.ax.includes(key) ? "ok" : "miss";
+    }
+    const bad = document.querySelector(".picked-bad");
+    reveal();
+    if (bad && st.picked !== "ok") document.querySelector(`#pane-order .op[data-id="${CSS.escape(key)}"]`)?.classList.add("picked-bad");
+  }
+
+  // ---------------------------------------------------------------- search + help + lightbox
+  function openSearch() {
+    const m = $("modal");
+    m.innerHTML = `<div class="mbox"><input id="q" placeholder="Search fields — DP, CCIR, danger close, ORP…" autocomplete="off" aria-label="Search fields"><div class="mres" id="qres"></div></div>`;
+    m.classList.add("on");
+    const q = $("q");
+    let sel = 0;
+    const draw = () => {
+      const v = q.value.trim().toLowerCase();
+      const hits = ELEMENTS.filter((el) => !v || (el.name + " " + pageById[el.page].title + " " + el.id + " " + ((RES[el.id].items || []).map((i) => i.text).join(" "))).toLowerCase().includes(v)).slice(0, 40);
+      sel = Math.min(sel, Math.max(0, hits.length - 1));
+      $("qres").innerHTML = hits.map((el, k) => `<button class="t-${el.type} ${k === sel ? "on" : ""}" data-go="${el.id}"><span class="d"></span><span>${esc(el.name)}<span class="x">${esc(((RES[el.id].items || [])[0] || { text: "" }).text.replace(/\*\*/g, "").replace(/\n/g, " · "))}</span></span><span class="p">${esc(pageNo(pageById[el.page]))}</span></button>`).join("") || `<div class="emptydoc">No field matches.</div>`;
+      return hits;
+    };
+    let hits = draw();
+    q.addEventListener("input", () => { sel = 0; hits = draw(); });
+    q.addEventListener("keydown", (e) => {
+      if (e.key === "ArrowDown") { sel = Math.min(sel + 1, hits.length - 1); hits = draw(); e.preventDefault(); }
+      if (e.key === "ArrowUp") { sel = Math.max(sel - 1, 0); hits = draw(); e.preventDefault(); }
+      if (e.key === "Enter" && hits[sel]) { closeModal(); leaveStepFor(hits[sel].id); }
+    });
+    setTimeout(() => q.focus(), 10);
+  }
+  function leaveStepFor(id) {
+    if (st.view === "step" || st.view === "lessonStart" || st.view === "lessonEnd" || st.view === "home") st.view = "page";
+    select(id);
+  }
+  function openHelp() {
+    const m = $("modal");
+    m.innerHTML = `<div class="mbox"><div class="help"><h3>How this works</h3>
+      <p>Each field of the shell is one of three kinds:</p>${Object.entries(TYPES).map(([k, T]) => `<p><span class="tchip t-${k}">${T.label}</span> ${T.short}</p>`).join("")}
+      <h4>Sources — only your packet</h4><p><span class="chip order">OPORD 1.b.iii</span> PLT OPORD paragraph · <span class="chip annex">Annex C-PLT</span> annex page · <span class="chip map">Map · K2</span> read off the 1:25,000 map · <span class="chip shell">Shell PG 12</span> printed on the shell form. Nothing comes from class notes or recordings: you get only what an SL is handed. <span class="std-tag">Standard</span> marks a standard you bring with you (a format or SOP), not a source.</p>
+      <p>In Explore, the small numbers beside order paragraphs show how many shell fields use that line — tap one to see them.</p>
+      <h4>Keys</h4><table><tr><td><kbd>Space</kbd></td><td>Reveal / next reasoning step</td></tr><tr><td><kbd>1</kbd> <kbd>2</kbd> <kbd>3</kbd></td><td>Got it · Shaky · Missed</td></tr><tr><td><kbd>←</kbd> <kbd>→</kbd></td><td>Previous / next field</td></tr><tr><td><kbd>⌘K</kbd> <kbd>/</kbd></td><td>Search fields</td></tr><tr><td><kbd>Esc</kbd></td><td>Close / deselect</td></tr></table>
+      <h4>Opening the file</h4><p>Best on a laptop: double-click the .html file. On an iPhone, the Files / AirDrop preview does not run the app — open it on a computer.</p>
+      <h4>This build</h4><p class="mono" style="font-size:12px">Synced ${esc(BUILD.time || "")} · ${ELEMENTS.length} fields · ${PAGES.length} pages${AUTHOR ? ` · AUTHOR MODE: ${Object.values(RES).filter((r) => r.stale).length} changed since reviewed` : ""}</p>
+      <div class="ctrl"><button class="btn sm" data-act="close">Close</button></div></div></div>`;
+    m.classList.add("on");
+  }
+  function closeModal() { $("modal").classList.remove("on"); $("modal").innerHTML = ""; }
+  function usesPopover(pid) {
+    const ids = [...(usesOf[pid] || [])];
+    const m = $("modal");
+    m.innerHTML = `<div class="mbox"><div class="help"><h3 style="font-size:17px">OPORD ${esc(pid)} is used by ${ids.length} field${ids.length > 1 ? "s" : ""}</h3></div><div class="mres">${ids.map((id) => { const el = elById[id]; return `<button class="t-${el.type}" data-go="${id}"><span class="d"></span><span>${esc(el.name)}</span><span class="p">${esc(pageNo(pageById[el.page]))}</span></button>`; }).join("")}</div></div>`;
+    m.classList.add("on");
+  }
+  function lightbox(file, crop) {
+    $("lbx").classList.add("on");
+    const im = new Image();
+    im.onload = () => {
+      let w = im.naturalWidth, h = im.naturalHeight, html = `<img src="${esc(src(file))}" alt="">`;
+      if (crop) {
+        const [sx, sy, sw, sh, ow, oh] = crop.split(",").map(Number);
+        w = 2000; h = 2000 * sh / sw;
+        html = `<svg viewBox="${sx} ${sy} ${sw} ${sh}"><image href="${esc(src(file))}" width="${ow}" height="${oh}"/></svg>`;
+      }
+      PanZoom($("lbxPz"), { w, h, html });
+    };
+    im.src = src(file);
+  }
+
+  // ---------------------------------------------------------------- events
+  document.addEventListener("click", (e) => {
+    const t = e.target;
+    const b = t.closest("[data-act]");
+    if (b) {
+      const a = b.dataset.act;
+      if (a === "reveal") reveal();
+      else if (a === "step") stepChain();
+      else if (a === "back") go(-1);
+      else if (a === "skip") go(1);
+      else if (a === "begin") { st.stage = "ask"; st.shown = 0; st.cloze = new Set(); st.picked = null; showStep(false); }
+      else if (a === "home") { st.mode = "learn"; setMode("learn"); }
+      else if (a === "explore") setMode("explore");
+      else if (a === "close") closeModal();
+      else if (a === "reviewall") startLesson(0, ELEMENTS.filter((el) => st.grades[el.id] && st.grades[el.id] !== "got").map((el) => el.id));
+      else if (a === "reviewthis") startLesson(st.lesson, st.lastWeak.slice());
+      else if (a === "prev" || a === "nextf") { const el = elById[st.sel], sib = pageFields(el.page), k = sib.indexOf(el) + (a === "prev" ? -1 : 1); if (sib[k]) select(sib[k].id); }
+      return;
+    }
+    const L = t.closest("[data-lesson]");
+    if (L) { if (st.mode !== "learn") { st.mode = "learn"; document.querySelectorAll(".seg button").forEach((x) => x.setAttribute("aria-pressed", String(x.dataset.mode === "learn"))); } startLesson(+L.dataset.lesson); return; }
+    const g = t.closest("[data-g]");
+    if (g) { grade(g.dataset.g); return; }
+    const cz = t.closest("[data-cz]");
+    if (cz) { st.cloze.add(+cz.dataset.cz); renderPanel(); return; }
+    const go2 = t.closest("[data-go]");
+    if (go2) { closeModal(); leaveStepFor(go2.dataset.go); return; }
+    const chip = t.closest("[data-chip]");
+    if (chip) {
+      const c = parseTag(chip.dataset.chip);
+      const li = chip.closest("li[data-n]");
+      if (li) { focusEvidence(+li.dataset.n); return; }
+      setTab(c.fam, false);
+      if (c.fam === "order" && c.ids.length) { const n = document.querySelector(`#pane-order .op[data-id="${CSS.escape(c.ids[0])}"]`); if (n) { $("doc").scrollTo({ top: n.offsetTop - 40, behavior: "smooth" }); n.classList.remove("hl-on"); void n.offsetWidth; n.classList.add("hl-on"); } }
+      if (c.fam === "map" && c.pts.length && !mapMarks.some((m) => m.name === c.pts[0].name)) { mapMarks = c.pts.map((pt) => ({ n: "•", name: pt.name, en: pt.en })); paintMap(); }
+      if (c.fam === "map") { const m = marksInTab(), k = m.findIndex((x) => x.textContent.includes(c.pts.length ? c.pts[0].name : "~")); focusMark(Math.max(0, k)); }
+      return;
+    }
+    const li = t.closest("#srcTop .evid li");
+    if (li) { focusEvidence(+li.dataset.n); return; }
+    const sb = t.closest("[data-src]");
+    if (sb) { goSource(sb.dataset.src === "next" ? srcIdx + 1 : +sb.dataset.src); return; }
+    const vt = t.closest("[data-tab]");
+    if (vt) { setTab(vt.dataset.tab); return; }
+    const hn = t.closest("[data-hl]");
+    if (hn) { focusMark(st.hlIdx + +hn.dataset.hl); return; }
+    const uses = t.closest("[data-uses]");
+    if (uses) { usesPopover(uses.dataset.uses); return; }
+    const lb = t.closest("[data-lbx]");
+    if (lb) { lightbox(lb.dataset.lbx, lb.dataset.crop); return; }
+    const op = t.closest("#pane-order .op, #pane-order .ord-title");
+    if (op && st.view === "step") { pickLocation("order", op.dataset.id); return; }
+    const it = t.closest("#pane-annex .it");
+    if (it && st.view === "step") { pickLocation("annex", it.dataset.sec); return; }
+    const pv = t.closest("[data-pv]");
+    if (pv) { setMode("explore"); showPage(pv.dataset.pv); return; }
+    const pg = t.closest("[data-page-go]");
+    if (pg) { if (pg.dataset.pageGo) showPage(pg.dataset.pageGo); return; }
+    const ri = t.closest(".ri");
+    if (ri) {
+      $("rail").classList.remove("on");
+      const pid = ri.dataset.page;
+      if (st.mode === "learn" && lessonOf[pid] !== undefined) {
+        const L = LESSONS[lessonOf[pid]];
+        startLesson(L.i);
+        st.qi = L.fields.indexOf(pageFields(pid)[0].id); st.stage = "ask"; st.shown = 0; st.cloze = new Set(); st.picked = null;
+        showStep(false);
+      } else { st.mode = "explore"; document.querySelectorAll(".seg button").forEach((x) => x.setAttribute("aria-pressed", String(x.dataset.mode === "explore"))); showPage(pid); }
+      return;
+    }
+    const fld = t.closest("#main .fchip, #main .hot");
+    if (fld) {
+      if (st.view === "step") { if (fld.dataset.id === st.queue[st.qi] && st.stage !== "done") reveal(); return; }
+      select(fld.dataset.id);
+      return;
+    }
+    if (t === $("modal")) closeModal();
+  });
+  document.querySelectorAll(".seg button").forEach((b) => { b.onclick = () => setMode(b.dataset.mode); });
+  $("searchBtn").onclick = openSearch;
+  $("helpBtn").onclick = openHelp;
+  $("railBtn").onclick = () => $("rail").classList.toggle("on");
+  $("lbxX").onclick = () => $("lbx").classList.remove("on");
+  $("sheetX").onclick = (e) => { e.stopPropagation(); $("src").classList.remove("on"); };
+  $("handle").addEventListener("click", (e) => { if (e.target === $("handle")) $("src").classList.toggle("peek"); });
+  document.addEventListener("keydown", (e) => {
+    if ($("modal").classList.contains("on")) { if (e.key === "Escape") closeModal(); return; }
+    if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "k") { e.preventDefault(); openSearch(); return; }
+    if (e.target.closest("input, textarea")) return;
+    if (e.key === "/") { e.preventDefault(); openSearch(); return; }
+    if (e.key === "Escape") { if ($("lbx").classList.contains("on")) $("lbx").classList.remove("on"); else if (st.view === "page" && st.sel) { st.sel = null; refreshFields(); renderPanel(); hideLink(); } return; }
+    if (st.view === "lessonStart" && e.key === "Enter") { document.querySelector('[data-act="begin"]')?.click(); return; }
+    if (st.view === "step") {
+      const el = elById[st.queue[st.qi]];
+      if (e.key === " ") { e.preventDefault(); if (st.stage === "done") go(1); else if (el.type === "derive" && el.chain) stepChain(); else reveal(); }
+      else if (st.stage === "done" && ["1", "2", "3"].includes(e.key)) grade(["got", "shaky", "missed"][+e.key - 1]);
+      else if (e.key === "ArrowRight") go(1);
+      else if (e.key === "ArrowLeft") go(-1);
+    } else if (st.view === "page" && (e.key === "ArrowRight" || e.key === "ArrowLeft")) {
+      const sib = pageFields(st.page), k = st.sel ? sib.indexOf(elById[st.sel]) : -1;
+      const n = sib[k + (e.key === "ArrowRight" ? 1 : -1)];
+      if (n) select(n.id);
+    }
+  });
+  window.addEventListener("hashchange", () => {
+    const id = (location.hash.match(/f=([\w-]+)/) || [])[1];
+    if (id && elById[id] && id !== curId()) leaveStepFor(id);
+  });
+  $("main").addEventListener("scroll", scheduleLink, { passive: true });
+  $("doc").addEventListener("scroll", scheduleLink, { passive: true });
+  window.addEventListener("resize", () => { scheduleLink(); if (viewer) viewer.refresh(); if (mapViewer) mapViewer.fit(false); else ensureMap(); if (st.view === "home") sizePreviews(); });
+
+  // ---------------------------------------------------------------- boot
+  renderOrder();
+  renderAnnex();
+  renderShellPrint();
+  document.querySelectorAll(".seg button").forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.mode === st.mode)));
+  const deep = (location.hash.match(/f=([\w-]+)/) || [])[1];
+  if (deep && elById[deep]) { st.mode = "explore"; document.querySelectorAll(".seg button").forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.mode === "explore"))); showPage(elById[deep].page, deep); }
+  else if (st.mode === "explore") showPage(st.page);
+  else showHome();
+  W.OST = { st, LESSONS, evidence, elById, mapCount: () => mapMarks.length, reveal, go };
+  W.__sheet = sheetHTML;
+})();
+</script>
+</body>
+</html>
